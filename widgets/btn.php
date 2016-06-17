@@ -25,7 +25,8 @@ class WPBW_Widget_Button extends WP_Widget {
 	 */
 	public function widget( $args, $instance ) {
 		$classes = $instance['type'];
-		$classes .= ' '.$instance['size'];
+		$classes .= ' ' . $instance['size'];
+		$classes .= ' ' . $instance['width'];
 		echo $args['before_widget'];
 		?>
 		<a href="<?php echo $instance['url']; ?>" class="btn <?php echo $classes; ?>">
@@ -47,6 +48,7 @@ class WPBW_Widget_Button extends WP_Widget {
 		$this->form_field_url( $instance );
 		$this->form_field_type( $instance );
 		$this->form_field_size( $instance );
+		$this->form_field_width( $instance );
 	}
 
 	/**
@@ -146,6 +148,34 @@ class WPBW_Widget_Button extends WP_Widget {
 	}
 
 	/**
+	 * The button width field
+	 *
+	 * @param $instance
+	 */
+	public function form_field_width( $instance ) {
+		$id    = $this->get_field_id( 'width' );
+		$name  = $this->get_field_name( 'width' );
+		$value = isset( $instance['width'] ) ? $instance['width'] : '';
+		$options = array(
+			''          => 'Normal width',
+			'btn-block' => 'Full width (btn-block)',
+		)
+		?>
+		<p>
+			<label for="<?php echo $id; ?>"><?php _e( 'Width:' ); ?></label>
+			<select name="<?php echo $name; ?>" id="<?php echo $id; ?>">
+				<?php foreach ( $options as $key => $text ): ?>
+					<?php $selected = ( $key == $value ) ? 'selected="selected"' : ''; ?>
+					<option value="<?php echo $key; ?>" <?php echo $selected; ?>>
+						<?php echo $text; ?>
+					</option>
+				<?php endforeach; ?>
+			</select>
+		</p>
+		<?php
+	}
+
+	/**
 	 * Save the widget options
 	 *
 	 * @param array $new_instance
@@ -154,11 +184,12 @@ class WPBW_Widget_Button extends WP_Widget {
 	 * @return array
 	 */
 	public function update( $new_instance, $old_instance ) {
-		$instance         = array();
-		$instance['url']  = strip_tags( $new_instance['url'] );
-		$instance['type'] = strip_tags( $new_instance['type'] );
-		$instance['text'] = strip_tags( $new_instance['text'] );
-		$instance['size'] = strip_tags( $new_instance['size'] );
+		$instance          = array();
+		$instance['url']   = strip_tags( $new_instance['url'] );
+		$instance['type']  = strip_tags( $new_instance['type'] );
+		$instance['text']  = strip_tags( $new_instance['text'] );
+		$instance['size']  = strip_tags( $new_instance['size'] );
+		$instance['width'] = strip_tags( $new_instance['width'] );
 
 		return $instance;
 	}
