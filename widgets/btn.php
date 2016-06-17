@@ -5,13 +5,13 @@
  *
  * @author Junior Grossi <@jgrossi>
  */
-class WBW_Widget_Button extends WP_Widget {
+class WPBW_Widget_Button extends WP_Widget {
 	/**
 	 * The constructor
 	 */
 	public function __construct() {
 		parent::__construct(
-			'wbw-btn',
+			'wpbw-btn',
 			__( 'Bootstrap Button' ),
 			array( 'description' => __( 'The button Bootstrap component widget' ) )
 		);
