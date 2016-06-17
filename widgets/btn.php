@@ -24,9 +24,11 @@ class WPBW_Widget_Button extends WP_Widget {
 	 * @param array $instance
 	 */
 	public function widget( $args, $instance ) {
+		$classes = $instance['type'];
+		$classes .= ' '.$instance['size'];
 		echo $args['before_widget'];
 		?>
-		<a href="<?php echo $instance['url']; ?>" class="btn <?php echo $instance['type']; ?>">
+		<a href="<?php echo $instance['url']; ?>" class="btn <?php echo $classes; ?>">
 			<?php echo $instance['text']; ?>
 		</a>
 		<?php
@@ -44,6 +46,7 @@ class WPBW_Widget_Button extends WP_Widget {
 		$this->form_field_text( $instance );
 		$this->form_field_url( $instance );
 		$this->form_field_type( $instance );
+		$this->form_field_size( $instance );
 	}
 
 	/**
@@ -114,6 +117,35 @@ class WPBW_Widget_Button extends WP_Widget {
 	}
 
 	/**
+	 * The button size field
+	 *
+	 * @param $instance
+	 */
+	public function form_field_size( $instance ) {
+		$id    = $this->get_field_id( 'size' );
+		$name  = $this->get_field_name( 'size' );
+		$value = isset( $instance['size'] ) ? $instance['size'] : '';
+		$options = array(
+			'btn-lg' => 'Large (btn-lg)',
+			'btn-sm' => 'Small (btn-sm)',
+			'btn-xs' => 'Extra Small (btn-xs)',
+		)
+		?>
+		<p>
+			<label for="<?php echo $id; ?>"><?php _e( 'Size:' ); ?></label>
+			<select name="<?php echo $name; ?>" id="<?php echo $id; ?>">
+				<?php foreach ( $options as $key => $text ): ?>
+					<?php $selected = ( $key == $value ) ? 'selected="selected"' : ''; ?>
+					<option value="<?php echo $key; ?>" <?php echo $selected; ?>>
+						<?php echo $text; ?>
+					</option>
+				<?php endforeach; ?>
+			</select>
+		</p>
+		<?php
+	}
+
+	/**
 	 * Save the widget options
 	 *
 	 * @param array $new_instance
@@ -126,6 +158,7 @@ class WPBW_Widget_Button extends WP_Widget {
 		$instance['url']  = strip_tags( $new_instance['url'] );
 		$instance['type'] = strip_tags( $new_instance['type'] );
 		$instance['text'] = strip_tags( $new_instance['text'] );
+		$instance['size'] = strip_tags( $new_instance['size'] );
 
 		return $instance;
 	}
