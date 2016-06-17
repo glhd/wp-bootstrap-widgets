@@ -2,7 +2,7 @@
 /*
 Plugin Name: WP Bootstrap Widgets
 Plugin URI:  https://github.com/glhd/wp-bootstrap-widgets
-Description: Bootstrap components as WordPress widgets
+Description: Bootstrap Components as WordPress Widgets
 Version:     0.1
 Author:      Galahad, Inc.
 Author URI:  http://glhd.org/
@@ -41,17 +41,27 @@ function wbw_requirements_error() {
 	require_once( dirname( __FILE__ ) . '/views/requirements-error.php' );
 }
 
+/**
+ * Register the widgets in WordPress
+ */
+function wbw_widgets_init() {
+	register_widget( 'WBW_Widget_Button' );
+}
+
 /*
  * Check requirements and load main class
  * The main program needs to be in a separate file that only gets loaded if the plugin requirements are met. Otherwise older PHP installations could crash when trying to parse it.
  */
 if ( wbw_requirements_met() ) {
-	require_once( __DIR__ . '/widgets/btn.php' );
-	require_once( __DIR__ . '/widgets/img.php' );
-	require_once( __DIR__ . '/widgets/alert.php' );
-	require_once( __DIR__ . '/widgets/panel.php' );
-	require_once( __DIR__ . '/widgets/embed-responsive.php' );
-	require_once( __DIR__ . '/widgets/well.php' );
+	require_once( dirname( __FILE__ ) . '/widgets/btn.php' );
+	require_once( dirname( __FILE__ ) . '/widgets/img.php' );
+	require_once( dirname( __FILE__ ) . '/widgets/alert.php' );
+	require_once( dirname( __FILE__ ) . '/widgets/panel.php' );
+	require_once( dirname( __FILE__ ) . '/widgets/embed-responsive.php' );
+	require_once( dirname( __FILE__ ) . '/widgets/well.php' );
+
+	add_action( 'widgets_init', 'wbw_widgets_init' );
+
 } else {
 	add_action( 'admin_notices', 'wbw_requirements_error' );
 }
