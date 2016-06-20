@@ -60,12 +60,7 @@ class WPBW_Widget_Button extends WP_Widget {
 		$id    = $this->get_field_id( 'text' );
 		$name  = $this->get_field_name( 'text' );
 		$value = isset( $instance['text'] ) ? $instance['text'] : 'Go to Google!';
-		?>
-		<p>
-			<label for="<?php echo $id; ?>"><?php echo _e( 'Text:' ); ?></label>
-			<input class="widefat" id="<?php echo $id; ?>" name="<?php echo $name; ?>" type="text" value="<?php echo $value; ?>" />
-		</p>
-		<?php
+		wpbw_field_text($name, 'Text:', compact('id'), $value);
 	}
 
 	/**
@@ -77,12 +72,7 @@ class WPBW_Widget_Button extends WP_Widget {
 		$id    = $this->get_field_id( 'url' );
 		$name  = $this->get_field_name( 'url' );
 		$value = isset( $instance['url'] ) ? $instance['url'] : 'http://google.com';
-		?>
-		<p>
-			<label for="<?php echo $id; ?>"><?php echo _e( 'URL:' ); ?></label>
-			<input class="widefat" id="<?php echo $id; ?>" name="<?php echo $name; ?>" type="text" value="<?php echo $value; ?>" />
-		</p>
-		<?php
+		wpbw_field_text($name, 'URL:', compact('id'), $value);
 	}
 
 	/**
@@ -102,20 +92,8 @@ class WPBW_Widget_Button extends WP_Widget {
 			'btn-warning' => 'Warning (btn-warning)',
 			'btn-danger'  => 'Danger (btn-danger)',
 			'btn-link'    => 'Link (btn-link)',
-		)
-		?>
-		<p>
-			<label for="<?php echo $id; ?>"><?php _e( 'Type:' ); ?></label>
-			<select name="<?php echo $name; ?>" id="<?php echo $id; ?>">
-				<?php foreach ( $options as $key => $text ): ?>
-					<?php $selected = ( $key == $value ) ? 'selected="selected"' : ''; ?>
-					<option value="<?php echo $key; ?>" <?php echo $selected; ?>>
-						<?php echo $text; ?>
-					</option>
-				<?php endforeach; ?>
-			</select>
-		</p>
-		<?php
+		);
+		wpbw_field_select($name, 'Type:', $options, compact('id'), $value);
 	}
 
 	/**
@@ -128,23 +106,12 @@ class WPBW_Widget_Button extends WP_Widget {
 		$name  = $this->get_field_name( 'size' );
 		$value = isset( $instance['size'] ) ? $instance['size'] : '';
 		$options = array(
+			'' => 'Normal size',
 			'btn-lg' => 'Large (btn-lg)',
 			'btn-sm' => 'Small (btn-sm)',
 			'btn-xs' => 'Extra Small (btn-xs)',
-		)
-		?>
-		<p>
-			<label for="<?php echo $id; ?>"><?php _e( 'Size:' ); ?></label>
-			<select name="<?php echo $name; ?>" id="<?php echo $id; ?>">
-				<?php foreach ( $options as $key => $text ): ?>
-					<?php $selected = ( $key == $value ) ? 'selected="selected"' : ''; ?>
-					<option value="<?php echo $key; ?>" <?php echo $selected; ?>>
-						<?php echo $text; ?>
-					</option>
-				<?php endforeach; ?>
-			</select>
-		</p>
-		<?php
+		);
+		wpbw_field_select($name, 'Size:', $options, compact('id'), $value);
 	}
 
 	/**
@@ -159,20 +126,8 @@ class WPBW_Widget_Button extends WP_Widget {
 		$options = array(
 			''          => 'Normal width',
 			'btn-block' => 'Full width (btn-block)',
-		)
-		?>
-		<p>
-			<label for="<?php echo $id; ?>"><?php _e( 'Width:' ); ?></label>
-			<select name="<?php echo $name; ?>" id="<?php echo $id; ?>">
-				<?php foreach ( $options as $key => $text ): ?>
-					<?php $selected = ( $key == $value ) ? 'selected="selected"' : ''; ?>
-					<option value="<?php echo $key; ?>" <?php echo $selected; ?>>
-						<?php echo $text; ?>
-					</option>
-				<?php endforeach; ?>
-			</select>
-		</p>
-		<?php
+		);
+		wpbw_field_select($name, 'Width:', $options, compact('id'), $value);
 	}
 
 	/**
