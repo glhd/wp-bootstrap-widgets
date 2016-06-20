@@ -27,7 +27,9 @@ class WPBW_Widget_Button extends WP_Widget {
 		$classes = $instance['type'];
 		$classes .= ' ' . $instance['size'];
 		$classes .= ' ' . $instance['width'];
-		$classes .= ' ' . ( isset( $instance['class'] ) ) ? $instance['class'] : '';
+		if ( isset( $instance['class'] ) ) {
+			$classes .= ' ' . $instance['class'];
+		}
 		echo $args['before_widget'];
 		?>
 		<a href="<?php echo $instance['url']; ?>" class="btn <?php echo $classes; ?>">
