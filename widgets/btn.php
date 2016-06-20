@@ -60,7 +60,7 @@ class WPBW_Widget_Button extends WP_Widget {
 		$id    = $this->get_field_id( 'text' );
 		$name  = $this->get_field_name( 'text' );
 		$value = isset( $instance['text'] ) ? $instance['text'] : 'Go to Google!';
-		wpbw_field_text($name, 'Text:', compact('id'), $value);
+		wpbw_field_text( $name, 'Text:', compact( 'id' ), $value );
 	}
 
 	/**
@@ -72,7 +72,7 @@ class WPBW_Widget_Button extends WP_Widget {
 		$id    = $this->get_field_id( 'url' );
 		$name  = $this->get_field_name( 'url' );
 		$value = isset( $instance['url'] ) ? $instance['url'] : 'http://google.com';
-		wpbw_field_text($name, 'URL:', compact('id'), $value);
+		wpbw_field_text( $name, 'URL:', compact( 'id' ), $value );
 	}
 
 	/**
@@ -81,9 +81,9 @@ class WPBW_Widget_Button extends WP_Widget {
 	 * @param $instance
 	 */
 	public function form_field_type( $instance ) {
-		$id    = $this->get_field_id( 'type' );
-		$name  = $this->get_field_name( 'type' );
-		$value = isset( $instance['type'] ) ? $instance['type'] : 'btn-default';
+		$id      = $this->get_field_id( 'type' );
+		$name    = $this->get_field_name( 'type' );
+		$value   = isset( $instance['type'] ) ? $instance['type'] : 'btn-default';
 		$options = array(
 			'btn-default' => 'Default (btn-default)',
 			'btn-primary' => 'Primary (btn-primary)',
@@ -93,7 +93,7 @@ class WPBW_Widget_Button extends WP_Widget {
 			'btn-danger'  => 'Danger (btn-danger)',
 			'btn-link'    => 'Link (btn-link)',
 		);
-		wpbw_field_select($name, 'Type:', $options, compact('id'), $value);
+		wpbw_field_select( $name, 'Type:', $options, compact( 'id' ), $value );
 	}
 
 	/**
@@ -102,16 +102,16 @@ class WPBW_Widget_Button extends WP_Widget {
 	 * @param $instance
 	 */
 	public function form_field_size( $instance ) {
-		$id    = $this->get_field_id( 'size' );
-		$name  = $this->get_field_name( 'size' );
-		$value = isset( $instance['size'] ) ? $instance['size'] : '';
+		$id      = $this->get_field_id( 'size' );
+		$name    = $this->get_field_name( 'size' );
+		$value   = isset( $instance['size'] ) ? $instance['size'] : '';
 		$options = array(
-			'' => 'Normal size',
+			''       => 'Normal size',
 			'btn-lg' => 'Large (btn-lg)',
 			'btn-sm' => 'Small (btn-sm)',
 			'btn-xs' => 'Extra Small (btn-xs)',
 		);
-		wpbw_field_select($name, 'Size:', $options, compact('id'), $value);
+		wpbw_field_select( $name, 'Size:', $options, compact( 'id' ), $value );
 	}
 
 	/**
@@ -120,14 +120,14 @@ class WPBW_Widget_Button extends WP_Widget {
 	 * @param $instance
 	 */
 	public function form_field_width( $instance ) {
-		$id    = $this->get_field_id( 'width' );
-		$name  = $this->get_field_name( 'width' );
-		$value = isset( $instance['width'] ) ? $instance['width'] : '';
+		$id      = $this->get_field_id( 'width' );
+		$name    = $this->get_field_name( 'width' );
+		$value   = isset( $instance['width'] ) ? $instance['width'] : '';
 		$options = array(
 			''          => 'Normal width',
 			'btn-block' => 'Full width (btn-block)',
 		);
-		wpbw_field_select($name, 'Width:', $options, compact('id'), $value);
+		wpbw_field_select( $name, 'Width:', $options, compact( 'id' ), $value );
 	}
 
 	/**
