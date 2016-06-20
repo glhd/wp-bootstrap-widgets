@@ -27,7 +27,7 @@ class WPBW_Widget_Button extends WP_Widget {
 		$classes = $instance['type'];
 		$classes .= ' ' . $instance['size'];
 		$classes .= ' ' . $instance['width'];
-		$classes .= ' ' . $instance['class'];
+		$classes .= ' ' . ( isset( $instance['class'] ) ) ? $instance['class'] : '';
 		echo $args['before_widget'];
 		?>
 		<a href="<?php echo $instance['url']; ?>" class="btn <?php echo $classes; ?>">
@@ -159,6 +159,7 @@ class WPBW_Widget_Button extends WP_Widget {
 		$instance['text']  = strip_tags( $new_instance['text'] );
 		$instance['size']  = strip_tags( $new_instance['size'] );
 		$instance['width'] = strip_tags( $new_instance['width'] );
+		$instance['class'] = strip_tags( $new_instance['class'] );
 
 		return $instance;
 	}
