@@ -27,6 +27,7 @@ class WPBW_Widget_Button extends WP_Widget {
 		$classes = $instance['type'];
 		$classes .= ' ' . $instance['size'];
 		$classes .= ' ' . $instance['width'];
+		$classes .= ' ' . $instance['class'];
 		echo $args['before_widget'];
 		?>
 		<a href="<?php echo $instance['url']; ?>" class="btn <?php echo $classes; ?>">
@@ -49,6 +50,7 @@ class WPBW_Widget_Button extends WP_Widget {
 		$this->form_field_type( $instance );
 		$this->form_field_size( $instance );
 		$this->form_field_width( $instance );
+		$this->form_field_class( $instance );
 	}
 
 	/**
@@ -128,6 +130,18 @@ class WPBW_Widget_Button extends WP_Widget {
 			'btn-block' => 'Full width (btn-block)',
 		);
 		wpbw_field_select( $name, 'Width:', $options, compact( 'id' ), $value );
+	}
+
+	/**
+	 * Additional classes for button widget
+	 *
+	 * @param $instance
+	 */
+	public function form_field_class( $instance ) {
+		$id    = $this->get_field_id( 'class' );
+		$name  = $this->get_field_name( 'class' );
+		$value = isset( $instance['class'] ) ? $instance['class'] : '';
+		wpbw_field_text( $name, 'Additional classes:', compact( 'id' ), $value );
 	}
 
 	/**
