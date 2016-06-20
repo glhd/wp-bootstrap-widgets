@@ -21,6 +21,32 @@ function wpbw_field_text( $name, $text, $attributes = array(), $value = '' ) {
 }
 
 /**
+ * Textarea field for widget settings
+ *
+ * @param        $name
+ * @param        $text
+ * @param array  $attributes
+ * @param string $value
+ */
+function wpbw_field_textarea( $name, $text, $attributes = array(), $value = '' ) {
+	$id = $attributes['id'];
+	unset( $attributes['id'] );
+	$class = isset( $attributes['class'] ) ? $attributes['class'] : '';
+	unset( $attributes['class'] );
+	$html = '';
+	foreach ( $attributes as $key => $val ) {
+		$html .= sprintf( '%s="%s" ', $key, $val );
+	}
+	?>
+	<p>
+		<label for="<?php echo $id; ?>"><?php echo $text; ?></label>
+		<textarea class="widefat <?php echo $class; ?>" id="<?php echo $id; ?>"
+		          name="<?php echo $name; ?>" <?php echo $html; ?>><?php echo $value; ?></textarea>
+	</p>
+	<?php
+}
+
+/**
  * Select field for widget settings
  *
  * @param        $name
