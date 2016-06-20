@@ -46,6 +46,7 @@ function wpbw_requirements_error() {
  */
 function wpbw_widgets_init() {
 	register_widget( 'WPBW_Widget_Button' );
+	register_widget( 'WPBW_Widget_Image' );
 }
 
 /*
