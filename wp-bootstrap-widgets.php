@@ -48,6 +48,7 @@ function wpbw_widgets_init() {
 	register_widget( 'WPBW_Widget_Button' );
 	register_widget( 'WPBW_Widget_Image' );
 	register_widget( 'WPBW_Widget_Alert' );
+	register_widget( 'WPBW_Widget_Panel' );
 }
 
 /*
