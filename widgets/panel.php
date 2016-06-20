@@ -84,7 +84,7 @@ class WPBW_Widget_Panel extends WP_Widget {
 		$name       = $this->get_field_name( 'body' );
 		$value      = isset( $instance['body'] ) ? $instance['body'] : '';
 		$attributes = array( 'id' => $id, 'rows' => 4 );
-		wpbw_field_textarea( $name, __( 'Body:' ), $attributes, $value );
+		wpbw_field_textarea( $name, __( 'Body <em>(HTML code allowed)</em>):' ), $attributes, $value );
 	}
 
 	/**
@@ -129,7 +129,7 @@ class WPBW_Widget_Panel extends WP_Widget {
 	public function update( $new_instance, $old_instance ) {
 		$instance           = array();
 		$instance['title']  = strip_tags( $new_instance['title'] );
-		$instance['body']   = strip_tags( $new_instance['body'] );
+		$instance['body']   = $new_instance['body'];
 		$instance['footer'] = strip_tags( $new_instance['footer'] );
 		$instance['type']   = strip_tags( $new_instance['type'] );
 
