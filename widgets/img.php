@@ -93,7 +93,7 @@ class WPBW_Widget_Image extends WP_Widget {
 			''               => 'Normal image',
 			'img-responsive' => 'Responsive image',
 		);
-		wpbw_field_select( $name, __( 'Variations:' ), $options, compact( 'id' ), $value );
+		wpbw_field_select( $name, __( 'Responsive:' ), $options, compact( 'id' ), $value );
 	}
 
 	/**
