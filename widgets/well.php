@@ -15,7 +15,10 @@ class WPBW_Widget_Well extends WP_Widget {
 		parent::__construct(
 			'wpbw-well',
 			__( 'Bootstrap Well' ),
-			array( 'description' => __( 'The "well" Bootstrap component widget' ) )
+			array(
+				'description'   => __( 'The "well" Bootstrap component widget' ),
+				'panels_groups' => array( 'wp-bootstrap-widgets' ),
+			)
 		);
 	}
 

@@ -13,7 +13,10 @@ class WPBW_Widget_Button extends WP_Widget {
 		parent::__construct(
 			'wpbw-btn',
 			__( 'Bootstrap Button' ),
-			array( 'description' => __( 'The button Bootstrap component widget' ) )
+			array(
+				'description'   => __( 'The button Bootstrap component widget' ),
+				'panels_groups' => array( 'wp-bootstrap-widgets' ),
+			)
 		);
 	}
 

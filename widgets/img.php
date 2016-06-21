@@ -14,7 +14,10 @@ class WPBW_Widget_Image extends WP_Widget {
 		parent::__construct(
 			'wpbw-img',
 			__( 'Bootstrap Image' ),
-			array( 'description' => __( 'The image Bootstrap component widget' ) )
+			array(
+				'description'   => __( 'The image Bootstrap component widget' ),
+				'panels_groups' => array( 'wp-bootstrap-widgets' ),
+			)
 		);
 	}
 

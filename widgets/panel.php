@@ -15,7 +15,10 @@ class WPBW_Widget_Panel extends WP_Widget {
 		parent::__construct(
 			'wpbw-panel',
 			__( 'Bootstrap Panel' ),
-			array( 'description' => __( 'The .panel Bootstrap component widget' ) )
+			array(
+				'description'   => __( 'The .panel Bootstrap component widget' ),
+				'panels_groups' => array( 'wp-bootstrap-widgets' ),
+			)
 		);
 	}
 

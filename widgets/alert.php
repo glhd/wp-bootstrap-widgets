@@ -14,7 +14,10 @@ class WPBW_Widget_Alert extends WP_Widget {
 		parent::__construct(
 			'wpbw-alert',
 			__( 'Bootstrap Alert' ),
-			array( 'description' => __( 'The .alert Bootstrap component widget' ) )
+			array(
+				'description'   => __( 'The .alert Bootstrap component widget' ),
+				'panels_groups' => array( 'wp-bootstrap-widgets' ),
+			)
 		);
 	}
 

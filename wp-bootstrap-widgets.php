@@ -53,6 +53,26 @@ function wpbw_widgets_init() {
 	register_widget( 'WPBW_Widget_Well' );
 }
 
+/**
+ * Create a new tab for the Page Builder plugin
+ *
+ * @param $tabs
+ *
+ * @see https://siteorigin.com/page-builder/
+ *
+ * @return array
+ */
+function wpbw_add_widget_tabs( $tabs ) {
+	$tabs[] = array(
+		'title'  => __( 'Bootstrap Widgets' ),
+		'filter' => array(
+			'groups' => array( 'wp-bootstrap-widgets' ),
+		),
+	);
+
+	return $tabs;
+}
+
 /*
  * Check requirements and load main class
  * The main program needs to be in a separate file that only gets loaded if the plugin requirements are met. Otherwise older PHP installations could crash when trying to parse it.
@@ -67,7 +87,10 @@ if ( wpbw_requirements_met() ) {
 	require_once( dirname( __FILE__ ) . '/widgets/well.php' );
 
 	add_action( 'widgets_init', 'wpbw_widgets_init' );
-
+	// Site Origin Page Builder Plugin
+	if ( has_filter( 'siteorigin_panels_widget_dialog_tabs' ) ) {
+		add_filter( 'siteorigin_panels_widget_dialog_tabs', 'wpbw_add_widget_tabs', 20 );
+	}
 } else {
 	add_action( 'admin_notices', 'wpbw_requirements_error' );
 }
