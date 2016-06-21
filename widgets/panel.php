@@ -129,7 +129,7 @@ class WPBW_Widget_Panel extends WP_Widget {
 	public function update( $new_instance, $old_instance ) {
 		$instance           = array();
 		$instance['title']  = strip_tags( $new_instance['title'] );
-		$instance['body']   = $new_instance['body'];
+		$instance['body']   = preg_replace( '/<script.*?>.*?<\/script>/i', '', $new_instance['body'] );
 		$instance['footer'] = strip_tags( $new_instance['footer'] );
 		$instance['type']   = strip_tags( $new_instance['type'] );
 
