@@ -50,6 +50,7 @@ function wpbw_widgets_init() {
 	register_widget( 'WPBW_Widget_Alert' );
 	register_widget( 'WPBW_Widget_Panel' );
 	register_widget( 'WPBW_Widget_Embed' );
+	register_widget( 'WPBW_Widget_Well' );
 }
 
 /*
