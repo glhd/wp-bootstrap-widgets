@@ -17,6 +17,7 @@ class WPBW_Widget_Alert extends WP_Widget {
 			array(
 				'description'   => __( 'The .alert Bootstrap component widget' ),
 				'panels_groups' => array( 'wp-bootstrap-widgets' ),
+				'panels_icon'   => 'dashicons dashicons-format-chat',
 			)
 		);
 	}

@@ -16,6 +16,7 @@ class WPBW_Widget_Button extends WP_Widget {
 			array(
 				'description'   => __( 'The button Bootstrap component widget' ),
 				'panels_groups' => array( 'wp-bootstrap-widgets' ),
+				'panels_icon'   => 'dashicons dashicons-slides',
 			)
 		);
 	}

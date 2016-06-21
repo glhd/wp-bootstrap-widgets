@@ -18,6 +18,7 @@ class WPBW_Widget_Well extends WP_Widget {
 			array(
 				'description'   => __( 'The "well" Bootstrap component widget' ),
 				'panels_groups' => array( 'wp-bootstrap-widgets' ),
+				'panels_icon'   => 'dashicons dashicons-align-center',
 			)
 		);
 	}

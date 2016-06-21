@@ -18,6 +18,7 @@ class WPBW_Widget_Panel extends WP_Widget {
 			array(
 				'description'   => __( 'The .panel Bootstrap component widget' ),
 				'panels_groups' => array( 'wp-bootstrap-widgets' ),
+				'panels_icon'   => 'dashicons dashicons-editor-kitchensink',
 			)
 		);
 	}

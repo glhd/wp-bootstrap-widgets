@@ -18,6 +18,7 @@ class WPBW_Widget_Embed extends WP_Widget {
 			array(
 				'description'   => __( 'The "embed-responsive" Bootstrap component widget' ),
 				'panels_groups' => array( 'wp-bootstrap-widgets' ),
+				'panels_icon'   => 'dashicons dashicons-format-video',
 			)
 		);
 	}
