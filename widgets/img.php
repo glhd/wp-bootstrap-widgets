@@ -20,6 +20,12 @@ class WPBW_Widget_Image extends WP_Widget {
 				'panels_icon'   => 'dashicons dashicons-format-image',
 			)
 		);
+		add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
+	}
+
+	public function admin_scripts() {
+		wp_enqueue_media();
+		wp_enqueue_script( $this->name, plugin_dir_url( __FILE__ ) . '../js/img.js', array( 'jquery' ) );
 	}
 
 	/**
@@ -57,15 +63,19 @@ class WPBW_Widget_Image extends WP_Widget {
 	/**
 	 * The image URL
 	 *
-	 * TODO: Use a button to select the image in the library instead of the URL
-	 *
 	 * @param $instance
 	 */
 	public function form_field_url( $instance ) {
 		$id    = $this->get_field_id( 'url' );
 		$name  = $this->get_field_name( 'url' );
 		$value = isset( $instance['url'] ) ? $instance['url'] : '#';
-		wpbw_field_text( $name, __( 'Image URL:' ), compact( 'id' ), $value );
+		?>
+		<p>
+			<label for="<?php echo $id; ?>"><?php _e( 'Image <em>(select image or paste the URL)</em>:' ); ?></label><br>
+			<input id="<?php echo $id; ?>" type="text" name="<?php echo $name; ?>" value="<?php echo $value; ?>" />
+			<input id="wpbw-upload-button" type="button" class="button" value="Select image" />
+		</p>
+		<?php
 	}
 
 	/**
