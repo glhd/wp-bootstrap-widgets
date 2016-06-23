@@ -45,11 +45,11 @@ function wpbw_requirements_error() {
  * Register the widgets in WordPress
  */
 function wpbw_widgets_init() {
-	register_widget( 'WPBW_Widget_Button' );
-	register_widget( 'WPBW_Widget_Image' );
 	register_widget( 'WPBW_Widget_Alert' );
-	register_widget( 'WPBW_Widget_Panel' );
+	register_widget( 'WPBW_Widget_Button' );
 	register_widget( 'WPBW_Widget_Embed' );
+	register_widget( 'WPBW_Widget_Image' );
+	register_widget( 'WPBW_Widget_Panel' );
 	register_widget( 'WPBW_Widget_Well' );
 }
 
@@ -79,11 +79,11 @@ function wpbw_add_widget_tabs( $tabs ) {
  */
 if ( wpbw_requirements_met() ) {
 	require_once( dirname( __FILE__ ) . '/form-fields.php' );
-	require_once( dirname( __FILE__ ) . '/widgets/btn.php' );
-	require_once( dirname( __FILE__ ) . '/widgets/img.php' );
 	require_once( dirname( __FILE__ ) . '/widgets/alert.php' );
+	require_once( dirname( __FILE__ ) . '/widgets/button.php' );
+	require_once( dirname( __FILE__ ) . '/widgets/embed.php' );
+	require_once( dirname( __FILE__ ) . '/widgets/image.php' );
 	require_once( dirname( __FILE__ ) . '/widgets/panel.php' );
-	require_once( dirname( __FILE__ ) . '/widgets/embed-responsive.php' );
 	require_once( dirname( __FILE__ ) . '/widgets/well.php' );
 
 	add_action( 'widgets_init', 'wpbw_widgets_init' );

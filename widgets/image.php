@@ -12,7 +12,7 @@ class WPBW_Widget_Image extends WP_Widget {
 	 */
 	public function __construct() {
 		parent::__construct(
-			'wpbw-img',
+			'wpbw-image',
 			__( 'Bootstrap Image' ),
 			array(
 				'description'   => __( 'The image Bootstrap component widget' ),
@@ -25,7 +25,7 @@ class WPBW_Widget_Image extends WP_Widget {
 
 	public function admin_scripts() {
 		wp_enqueue_media();
-		wp_enqueue_script( $this->name, plugin_dir_url( __FILE__ ) . '../js/img.js', array( 'jquery' ) );
+		wp_enqueue_script( $this->name, plugin_dir_url( __FILE__ ) . '../js/image.js', array( 'jquery' ) );
 	}
 
 	/**

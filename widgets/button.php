@@ -11,7 +11,7 @@ class WPBW_Widget_Button extends WP_Widget {
 	 */
 	public function __construct() {
 		parent::__construct(
-			'wpbw-btn',
+			'wpbw-button',
 			__( 'Bootstrap Button' ),
 			array(
 				'description'   => __( 'The button Bootstrap component widget' ),
