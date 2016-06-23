@@ -9,7 +9,12 @@
 class WPBW_Widget_Embed extends WP_Widget {
 
 	/**
-	 * The image component constructor
+	 * The responsive item class name
+	 */
+	const ITEM_CLASS = 'embed-responsive-item';
+
+	/**
+	 * The embed responsive constructor
 	 */
 	public function __construct() {
 		parent::__construct(
@@ -31,11 +36,11 @@ class WPBW_Widget_Embed extends WP_Widget {
 	 */
 	public function widget( $args, $instance ) {
 		$aspect_ratio = isset( $instance['aspect_ratio'] ) ? $instance['aspect_ratio'] : 'embed-responsive-16by9';
-		$iframe_src   = isset( $instance['src'] ) ? $instance['src'] : '';
+		$code         = isset( $instance['code'] ) ? $instance['code'] : '';
 		echo $args['before_widget'];
 		?>
 		<div class="embed-responsive <?php echo $aspect_ratio; ?>">
-			<iframe class="embed-responsive-item" src="<?php echo $iframe_src; ?>"></iframe>
+			<?php echo $code; ?>
 		</div>
 		<?php
 		echo $args['after_widget'];
@@ -49,20 +54,25 @@ class WPBW_Widget_Embed extends WP_Widget {
 	 * @return void
 	 */
 	public function form( $instance ) {
-		$this->form_field_src( $instance );
+		$this->form_field_code( $instance );
 		$this->form_field_aspect_ratio( $instance );
 	}
 
 	/**
-	 * The widget's "src" attribute
+	 * The widget's embed code
 	 *
 	 * @param $instance
 	 */
-	public function form_field_src( $instance ) {
-		$id    = $this->get_field_id( 'src' );
-		$name  = $this->get_field_name( 'src' );
-		$value = isset( $instance['src'] ) ? $instance['src'] : '';
-		wpbw_field_text( $name, __( 'URL:' ), compact( 'id' ), $value );
+	public function form_field_code( $instance ) {
+		$id         = $this->get_field_id( 'code' );
+		$name       = $this->get_field_name( 'code' );
+		$value      = isset( $instance['code'] ) ? $instance['code'] : '';
+		$attributes = array(
+			'id'          => $id,
+			'rows'        => 4,
+			'placeholder' => htmlentities( '<iframe src="..."></iframe>' ),
+		);
+		wpbw_field_textarea( $name, __( 'Embed code:' ), $attributes, $value );
 	}
 
 	/**
@@ -91,9 +101,37 @@ class WPBW_Widget_Embed extends WP_Widget {
 	 */
 	public function update( $new_instance, $old_instance ) {
 		$instance                 = array();
-		$instance['src']          = filter_var( $new_instance['src'], FILTER_VALIDATE_URL );
+		$instance['code']         = $this->filter_code_field( $new_instance['code'] );
 		$instance['aspect_ratio'] = strip_tags( $new_instance['aspect_ratio'] );
 
 		return $instance;
+	}
+
+	/**
+	 * Filter the iframe code to add the bootstrap item class and remove
+	 * width and height attributes.
+	 *
+	 * @param string $code
+	 *
+	 * @return mixed|string
+	 */
+	protected function filter_code_field( $code ) {
+		$code          = strip_tags( $code, '<iframe>' );
+		$class_pattern = '/class=["\'](.+?)["\']/';
+		preg_match( $class_pattern, $code, $class_matches );
+		$classes = array();
+		if ( isset( $class_matches[1] ) && $class_matches[1] ) { // class1 class2
+			$classes = explode( ' ', trim( $class_matches[1] ) );
+		}
+		if ( ! in_array( static::ITEM_CLASS, $classes ) ) {
+			$classes[] = static::ITEM_CLASS;
+		}
+		if ( isset( $class_matches[0] ) && $class_matches[0] ) { // class="class1 class2"
+			$code = str_replace( $class_matches[0], '', $code );
+		}
+		$class_attribute = sprintf( 'class="%s"', implode( ' ', $classes ) );
+		$code            = preg_replace( '/<iframe/i', '<iframe ' . $class_attribute, $code );
+
+		return $code;
 	}
 }
