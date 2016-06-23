@@ -131,6 +131,8 @@ class WPBW_Widget_Embed extends WP_Widget {
 		}
 		$class_attribute = sprintf( 'class="%s"', implode( ' ', $classes ) );
 		$code            = preg_replace( '/<iframe/i', '<iframe ' . $class_attribute, $code );
+		$code            = preg_replace( '/(width|height)=["\'].+?["\']/', '', $code );
+		$code            = preg_replace( '/\s\s+/', ' ', $code );
 
 		return $code;
 	}
