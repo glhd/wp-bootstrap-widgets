@@ -66,16 +66,14 @@ class WPBW_Widget_Image extends WP_Widget {
 	 * @param $instance
 	 */
 	public function form_field_url( $instance ) {
-		$id    = $this->get_field_id( 'url' );
-		$name  = $this->get_field_name( 'url' );
-		$value = isset( $instance['url'] ) ? $instance['url'] : '#';
-		?>
-		<p>
-			<label for="<?php echo $id; ?>"><?php _e( 'Image <em>(select image or paste the URL)</em>:' ); ?></label><br>
-			<input id="<?php echo $id; ?>" type="text" name="<?php echo $name; ?>" value="<?php echo $value; ?>" />
-			<input id="wpbw-upload-button" type="button" class="button" value="Select image" />
-		</p>
-		<?php
+		$id         = $this->get_field_id( 'url' );
+		$name       = $this->get_field_name( 'url' );
+		$value      = isset( $instance['url'] ) ? $instance['url'] : '#';
+		$label      = __( 'Image <em>(select image or paste the URL)</em>:' );
+		$attributes = array( 'id' => $id, 'class' => '' );
+		add_action( 'wpbw_field_before', array( $this, 'form_field_before' ) );
+		add_action( 'wpbw_field_after', array( $this, 'form_field_after' ) );
+		wpbw_field_text( $name, $label, $attributes, $value );
 	}
 
 	/**
@@ -140,5 +138,29 @@ class WPBW_Widget_Image extends WP_Widget {
 		$instance['shape']      = strip_tags( $new_instance['shape'] );
 
 		return $instance;
+	}
+
+	/**
+	 * Hook to customize before the field
+	 *
+	 * @param string $name
+	 */
+	public function form_field_before( $name ) {
+		if ( $name == $this->get_field_name( 'url' ) ) {
+			echo '<br>';
+		}
+	}
+
+	/**
+	 * Hook to customize after the field
+	 *
+	 * @param string $name
+	 */
+	public function form_field_after( $name ) {
+		if ( $name == $this->get_field_name( 'url' ) ) {
+			?>
+			<input id="wpbw-upload-button" type="button" class="button" value="Select image" />
+			<?php
+		}
 	}
 }

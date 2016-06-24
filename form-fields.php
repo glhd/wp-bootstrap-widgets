@@ -10,12 +10,13 @@
  */
 function wpbw_field_text( $name, $text, $attributes = array(), $value = '' ) {
 	$id    = $attributes['id'];
-	$class = isset( $attributes['class'] ) ? $attributes['class'] : '';
+	$class = isset( $attributes['class'] ) ? $attributes['class'] : 'widefat';
 	?>
 	<p>
 		<label for="<?php echo $id; ?>"><?php echo $text; ?></label>
-		<input class="widefat <?php echo $class; ?>" id="<?php echo $id; ?>"
-		       name="<?php echo $name; ?>" type="text" value="<?php echo $value; ?>" />
+		<?php do_action( 'wpbw_field_before', $name ); ?>
+		<input class="<?php echo $class; ?>" id="<?php echo $id; ?>" name="<?php echo $name; ?>" type="text" value="<?php echo $value; ?>" />
+		<?php do_action( 'wpbw_field_after', $name ); ?>
 	</p>
 	<?php
 }
@@ -31,7 +32,7 @@ function wpbw_field_text( $name, $text, $attributes = array(), $value = '' ) {
 function wpbw_field_textarea( $name, $text, $attributes = array(), $value = '' ) {
 	$id = $attributes['id'];
 	unset( $attributes['id'] );
-	$class = isset( $attributes['class'] ) ? $attributes['class'] : '';
+	$class = isset( $attributes['class'] ) ? $attributes['class'] : 'widefat';
 	unset( $attributes['class'] );
 	$html = '';
 	foreach ( $attributes as $key => $val ) {
@@ -40,8 +41,9 @@ function wpbw_field_textarea( $name, $text, $attributes = array(), $value = '' )
 	?>
 	<p>
 		<label for="<?php echo $id; ?>"><?php echo $text; ?></label>
-		<textarea class="widefat <?php echo $class; ?>" id="<?php echo $id; ?>"
-		          name="<?php echo $name; ?>" <?php echo $html; ?>><?php echo $value; ?></textarea>
+		<?php do_action( 'wpbw_field_before', $name ); ?>
+		<textarea class="<?php echo $class; ?>" id="<?php echo $id; ?>" name="<?php echo $name; ?>" <?php echo $html; ?>><?php echo $value; ?></textarea>
+		<?php do_action( 'wpbw_field_after', $name ); ?>
 	</p>
 	<?php
 }
@@ -61,6 +63,7 @@ function wpbw_field_select( $name, $text, $options, $attributes = array(), $valu
 	?>
 	<p>
 		<label for="<?php echo $id; ?>"><?php echo $text; ?></label>
+		<?php do_action( 'wpbw_field_before', $name ); ?>
 		<select name="<?php echo $name; ?>" id="<?php echo $id; ?>" class="<?php echo $class; ?>">
 			<?php foreach ( $options as $key => $option ): ?>
 				<?php $selected = ( $key == $value ) ? 'selected="selected"' : ''; ?>
@@ -69,6 +72,7 @@ function wpbw_field_select( $name, $text, $options, $attributes = array(), $valu
 				</option>
 			<?php endforeach; ?>
 		</select>
+		<?php do_action( 'wpbw_field_after', $name ); ?>
 	</p>
 	<?php
 }
