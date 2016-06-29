@@ -19,9 +19,9 @@ class WPBW_Widget_Embed extends WP_Widget {
 	public function __construct() {
 		parent::__construct(
 			'wpbw-embed',
-			__( 'Bootstrap Responsive Embed' ),
+			__( 'Responsive Embed' ),
 			array(
-				'description'   => __( 'The "embed-responsive" Bootstrap component widget' ),
+				'description'   => __( 'Allow browsers to determine video or slideshow dimensions based on the width of their container.' ),
 				'panels_groups' => array( 'wp-bootstrap-widgets' ),
 				'panels_icon'   => 'dashicons dashicons-format-video',
 			)
@@ -72,7 +72,7 @@ class WPBW_Widget_Embed extends WP_Widget {
 			'rows'        => 4,
 			'placeholder' => htmlentities( '<iframe src="..."></iframe>' ),
 		);
-		wpbw_field_textarea( $name, __( 'Embed code:' ), $attributes, $value );
+		wpbw_field_textarea( $name, __( 'Embed Code:' ), $attributes, $value );
 	}
 
 	/**
@@ -85,10 +85,10 @@ class WPBW_Widget_Embed extends WP_Widget {
 		$name    = $this->get_field_name( 'aspect_ratio' );
 		$value   = isset( $instance['aspect_ratio'] ) ? $instance['aspect_ratio'] : '';
 		$options = array(
-			'embed-responsive-16by9' => '16x9',
-			'embed-responsive-4by3'  => '4x3',
+			'embed-responsive-16by9' => '16x9 (widescreen)',
+			'embed-responsive-4by3'  => '4x3 (traditional)',
 		);
-		wpbw_field_select( $name, __( 'Aspect ratio:' ), $options, compact( 'id' ), $value );
+		wpbw_field_select( $name, __( 'Aspect Ratio:' ), $options, compact( 'id' ), $value );
 	}
 
 	/**

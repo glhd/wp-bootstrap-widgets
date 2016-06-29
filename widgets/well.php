@@ -14,9 +14,9 @@ class WPBW_Widget_Well extends WP_Widget {
 	public function __construct() {
 		parent::__construct(
 			'wpbw-well',
-			__( 'Bootstrap Well' ),
+			__( 'Well' ),
 			array(
-				'description'   => __( 'The "well" Bootstrap component widget' ),
+				'description'   => __( 'Give your content a simple inset effect.' ),
 				'panels_groups' => array( 'wp-bootstrap-widgets' ),
 				'panels_icon'   => 'dashicons dashicons-align-center',
 			)
@@ -75,9 +75,9 @@ class WPBW_Widget_Well extends WP_Widget {
 		$name    = $this->get_field_name( 'size' );
 		$value   = isset( $instance['size'] ) ? $instance['size'] : '';
 		$options = array(
-			''        => 'Normal size',
-			'well-lg' => 'Larger',
-			'well-sm' => 'Smaller',
+			''        => 'Normal',
+			'well-lg' => 'Large',
+			'well-sm' => 'Small',
 		);
 		wpbw_field_select( $name, __( 'Size:' ), $options, compact( 'id' ), $value );
 	}

@@ -11,11 +11,12 @@
 function wpbw_field_text( $name, $text, $attributes = array(), $value = '' ) {
 	$id    = $attributes['id'];
 	$class = isset( $attributes['class'] ) ? $attributes['class'] : 'widefat';
+	$placeholder = isset( $attributes['placeholder'] ) ? $attributes['placeholder'] : '';
 	?>
 	<p>
 		<label for="<?php echo $id; ?>"><?php echo $text; ?></label>
 		<?php do_action( 'wpbw_field_before', $name ); ?>
-		<input class="<?php echo $class; ?>" id="<?php echo $id; ?>" name="<?php echo $name; ?>" type="text" value="<?php echo $value; ?>" />
+		<input class="<?php echo $class; ?>" id="<?php echo $id; ?>" name="<?php echo $name; ?>" type="text" value="<?php echo $value; ?>" placeholder="<?php echo $placeholder; ?>" />
 		<?php do_action( 'wpbw_field_after', $name ); ?>
 	</p>
 	<?php

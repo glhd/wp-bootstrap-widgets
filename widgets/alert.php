@@ -13,9 +13,9 @@ class WPBW_Widget_Alert extends WP_Widget {
 	public function __construct() {
 		parent::__construct(
 			'wpbw-alert',
-			__( 'Bootstrap Alert' ),
+			__( 'Alert' ),
 			array(
-				'description'   => __( 'The .alert Bootstrap component widget' ),
+				'description'   => __( 'Provide contextual feedback messages with alerts.' ),
 				'panels_groups' => array( 'wp-bootstrap-widgets' ),
 				'panels_icon'   => 'dashicons dashicons-format-chat',
 			)
@@ -63,8 +63,8 @@ class WPBW_Widget_Alert extends WP_Widget {
 		$id         = $this->get_field_id( 'text' );
 		$name       = $this->get_field_name( 'text' );
 		$attributes = array( 'id' => $id, 'rows' => 4 );
-		$value      = isset( $instance['text'] ) ? $instance['text'] : 'My text here';
-		wpbw_field_textarea( $name, __( 'Text content:' ), $attributes, $value );
+		$value      = isset( $instance['text'] ) ? $instance['text'] : '';
+		wpbw_field_textarea( $name, __( 'Message:' ), $attributes, $value );
 	}
 
 	/**
@@ -77,12 +77,12 @@ class WPBW_Widget_Alert extends WP_Widget {
 		$name    = $this->get_field_name( 'type' );
 		$value   = isset( $instance['type'] ) ? $instance['type'] : '';
 		$options = array(
-			'alert-success' => 'Success message',
-			'alert-info'    => 'Info message',
-			'alert-warning' => 'Warning message',
-			'alert-danger'  => 'Danger message',
+			'alert-success' => 'Success',
+			'alert-info'    => 'Info',
+			'alert-warning' => 'Warning',
+			'alert-danger'  => 'Danger',
 		);
-		wpbw_field_select( $name, __( 'Type:' ), $options, compact( 'id' ), $value );
+		wpbw_field_select( $name, __( 'Style:' ), $options, compact( 'id' ), $value );
 	}
 
 	/**
@@ -95,8 +95,8 @@ class WPBW_Widget_Alert extends WP_Widget {
 		$name    = $this->get_field_name( 'dismiss' );
 		$value   = isset( $instance['dismiss'] ) ? $instance['dismiss'] : '';
 		$options = array(
-			''                  => 'Do not dismiss',
-			'alert-dismissible' => 'Make it dismissible',
+			''                  => 'No',
+			'alert-dismissible' => 'Yes, let visitors close this alert',
 		);
 		wpbw_field_select( $name, __( 'Dismissible:' ), $options, compact( 'id' ), $value );
 	}
