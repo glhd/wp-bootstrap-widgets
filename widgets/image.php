@@ -4,6 +4,7 @@
  * The image Bootstrap component as WordPress widget
  *
  * @author Junior Grossi <@jgrossi>
+ * @todo Add set dimensions
  */
 class WPBW_Widget_Image extends WP_Widget {
 
@@ -13,9 +14,9 @@ class WPBW_Widget_Image extends WP_Widget {
 	public function __construct() {
 		parent::__construct(
 			'wpbw-image',
-			__( 'Bootstrap Image' ),
+			__( 'Image' ),
 			array(
-				'description'   => __( 'The image Bootstrap component widget' ),
+				'description'   => __( 'Display an image with styling and responsive resizing.' ),
 				'panels_groups' => array( 'wp-bootstrap-widgets' ),
 				'panels_icon'   => 'dashicons dashicons-format-image',
 			)
@@ -69,7 +70,7 @@ class WPBW_Widget_Image extends WP_Widget {
 		$id         = $this->get_field_id( 'url' );
 		$name       = $this->get_field_name( 'url' );
 		$value      = isset( $instance['url'] ) ? $instance['url'] : '#';
-		$label      = __( 'Image <em>(select image or paste the URL)</em>:' );
+		$label      = __( 'Image <em>(select from media library or paste the URL)</em>:' );
 		$attributes = array( 'id' => $id, 'class' => '' );
 		add_action( 'wpbw_field_before', array( $this, 'form_field_before' ) );
 		add_action( 'wpbw_field_after', array( $this, 'form_field_after' ) );
@@ -84,8 +85,9 @@ class WPBW_Widget_Image extends WP_Widget {
 	public function form_field_alt( $instance ) {
 		$id    = $this->get_field_id( 'alt' );
 		$name  = $this->get_field_name( 'alt' );
-		$value = isset( $instance['alt'] ) ? $instance['alt'] : 'My image';
-		wpbw_field_text( $name, __( 'Alternate text:' ), compact( 'id' ), $value );
+		$value = isset( $instance['alt'] ) ? $instance['alt'] : '';
+		$placeholder = 'eg. Photo of cat pouncing';
+		wpbw_field_text( $name, __( 'Descriptive Text (alt):' ), compact( 'id', 'placeholder' ), $value );
 	}
 
 	/**
@@ -98,8 +100,8 @@ class WPBW_Widget_Image extends WP_Widget {
 		$name    = $this->get_field_name( 'responsive' );
 		$value   = isset( $instance['responsive'] ) ? $instance['responsive'] : '';
 		$options = array(
-			''               => 'Normal image',
-			'img-responsive' => 'Responsive image',
+			''               => 'Fixed Size',
+			'img-responsive' => 'Responsive (scales up or down to fit container)',
 		);
 		wpbw_field_select( $name, __( 'Responsive:' ), $options, compact( 'id' ), $value );
 	}
@@ -114,10 +116,10 @@ class WPBW_Widget_Image extends WP_Widget {
 		$name    = $this->get_field_name( 'shape' );
 		$value   = isset( $instance['shape'] ) ? $instance['shape'] : '';
 		$options = array(
-			''              => 'No special shape',
-			'img-rounded'   => 'Rounded image',
-			'img-circle'    => 'Circle image',
-			'img-thumbnail' => 'Thumbnail image',
+			''              => 'No Special Shape',
+			'img-rounded'   => 'Rounded Corners',
+			'img-circle'    => 'Circle',
+			'img-thumbnail' => 'Thumbnail',
 		);
 		wpbw_field_select( $name, __( 'Shape:' ), $options, compact( 'id' ), $value );
 	}
@@ -159,7 +161,7 @@ class WPBW_Widget_Image extends WP_Widget {
 	public function form_field_after( $name ) {
 		if ( $name == $this->get_field_name( 'url' ) ) {
 			?>
-			<input id="wpbw-upload-button" type="button" class="button" value="Select image" />
+			<input id="wpbw-upload-button" type="button" class="button" value="Choose from Media Library" />
 			<?php
 		}
 	}

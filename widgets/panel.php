@@ -14,9 +14,9 @@ class WPBW_Widget_Panel extends WP_Widget {
 	public function __construct() {
 		parent::__construct(
 			'wpbw-panel',
-			__( 'Bootstrap Panel' ),
+			__( 'Panel' ),
 			array(
-				'description'   => __( 'The .panel Bootstrap component widget' ),
+				'description'   => __( 'Highlight your content with a title bar and some special styling.' ),
 				'panels_groups' => array( 'wp-bootstrap-widgets' ),
 				'panels_icon'   => 'dashicons dashicons-editor-kitchensink',
 			)
@@ -113,13 +113,13 @@ class WPBW_Widget_Panel extends WP_Widget {
 		$name    = $this->get_field_name( 'type' );
 		$value   = isset( $instance['type'] ) ? $instance['type'] : '';
 		$options = array(
-			'panel-default' => 'Default panel',
-			'panel-success' => 'Success panel',
-			'panel-info'    => 'Info panel',
-			'panel-warning' => 'Warning panel',
-			'panel-danger'  => 'Danger panel',
+			'panel-default' => 'Default',
+			'panel-success' => 'Success',
+			'panel-info'    => 'Info',
+			'panel-warning' => 'Warning',
+			'panel-danger'  => 'Danger',
 		);
-		wpbw_field_select( $name, __( 'Type:' ), $options, compact( 'id' ), $value );
+		wpbw_field_select( $name, __( 'Style:' ), $options, compact( 'id' ), $value );
 	}
 
 	/**

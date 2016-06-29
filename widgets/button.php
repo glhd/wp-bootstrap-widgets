@@ -12,9 +12,9 @@ class WPBW_Widget_Button extends WP_Widget {
 	public function __construct() {
 		parent::__construct(
 			'wpbw-button',
-			__( 'Bootstrap Button' ),
+			__( 'Button' ),
 			array(
-				'description'   => __( 'The button Bootstrap component widget' ),
+				'description'   => __( 'Set a link apart by styling it like a button.' ),
 				'panels_groups' => array( 'wp-bootstrap-widgets' ),
 				'panels_icon'   => 'dashicons dashicons-slides',
 			)
@@ -67,8 +67,8 @@ class WPBW_Widget_Button extends WP_Widget {
 	public function form_field_text( $instance ) {
 		$id    = $this->get_field_id( 'text' );
 		$name  = $this->get_field_name( 'text' );
-		$value = isset( $instance['text'] ) ? $instance['text'] : 'Go to Google!';
-		wpbw_field_text( $name, 'Text:', compact( 'id' ), $value );
+		$value = isset( $instance['text'] ) ? $instance['text'] : get_option('blogname');
+		wpbw_field_text( $name, 'Button Text:', compact( 'id' ), $value );
 	}
 
 	/**
@@ -79,8 +79,8 @@ class WPBW_Widget_Button extends WP_Widget {
 	public function form_field_url( $instance ) {
 		$id    = $this->get_field_id( 'url' );
 		$name  = $this->get_field_name( 'url' );
-		$value = isset( $instance['url'] ) ? $instance['url'] : 'http://google.com';
-		wpbw_field_text( $name, 'URL:', compact( 'id' ), $value );
+		$value = isset( $instance['url'] ) ? $instance['url'] : home_url();
+		wpbw_field_text( $name, 'Link URL:', compact( 'id' ), $value );
 	}
 
 	/**
@@ -93,15 +93,15 @@ class WPBW_Widget_Button extends WP_Widget {
 		$name    = $this->get_field_name( 'type' );
 		$value   = isset( $instance['type'] ) ? $instance['type'] : 'btn-default';
 		$options = array(
-			'btn-default' => 'Default (btn-default)',
-			'btn-primary' => 'Primary (btn-primary)',
-			'btn-success' => 'Success (btn-success)',
-			'btn-info'    => 'Info (btn-info)',
-			'btn-warning' => 'Warning (btn-warning)',
-			'btn-danger'  => 'Danger (btn-danger)',
-			'btn-link'    => 'Link (btn-link)',
+			'btn-default' => 'Default',
+			'btn-primary' => 'Primary',
+			'btn-success' => 'Success',
+			'btn-info'    => 'Info',
+			'btn-warning' => 'Warning',
+			'btn-danger'  => 'Danger',
+			'btn-link'    => 'Link',
 		);
-		wpbw_field_select( $name, 'Type:', $options, compact( 'id' ), $value );
+		wpbw_field_select( $name, 'Style:', $options, compact( 'id' ), $value );
 	}
 
 	/**
@@ -114,10 +114,10 @@ class WPBW_Widget_Button extends WP_Widget {
 		$name    = $this->get_field_name( 'size' );
 		$value   = isset( $instance['size'] ) ? $instance['size'] : '';
 		$options = array(
-			''       => 'Normal size',
-			'btn-lg' => 'Large (btn-lg)',
-			'btn-sm' => 'Small (btn-sm)',
-			'btn-xs' => 'Extra Small (btn-xs)',
+			''       => 'Normal',
+			'btn-lg' => 'Large',
+			'btn-sm' => 'Small',
+			'btn-xs' => 'Extra Small',
 		);
 		wpbw_field_select( $name, 'Size:', $options, compact( 'id' ), $value );
 	}
@@ -132,8 +132,8 @@ class WPBW_Widget_Button extends WP_Widget {
 		$name    = $this->get_field_name( 'width' );
 		$value   = isset( $instance['width'] ) ? $instance['width'] : '';
 		$options = array(
-			''          => 'Normal width',
-			'btn-block' => 'Full width (btn-block)',
+			''          => 'Content Width (as wide as text)',
+			'btn-block' => 'Container Width (as wide as whatever the button is inside of)',
 		);
 		wpbw_field_select( $name, 'Width:', $options, compact( 'id' ), $value );
 	}
@@ -147,7 +147,7 @@ class WPBW_Widget_Button extends WP_Widget {
 		$id    = $this->get_field_id( 'class' );
 		$name  = $this->get_field_name( 'class' );
 		$value = isset( $instance['class'] ) ? $instance['class'] : '';
-		wpbw_field_text( $name, 'Additional classes:', compact( 'id' ), $value );
+		wpbw_field_text( $name, 'Additional CSS Classes:', compact( 'id' ), $value );
 	}
 
 	/**
