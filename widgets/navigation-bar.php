@@ -5,7 +5,7 @@
  *
  * @author Junior Grossi <@jgrossi>
  */
-class WPBW_Widget_Navigation extends WP_Widget {
+class WPBW_Widget_NavigationBar extends WP_Widget {
 
 	/**
 	 * The class name when the <li> element has children (is a dropdown)
