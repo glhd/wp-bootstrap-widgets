@@ -102,17 +102,41 @@ class WPBW_Widget_NavigationBar extends WP_Widget {
 	 * @param array $instance
 	 */
 	public function widget( $args, $instance ) {
-		$menu  = isset( $instance['menu'] ) ? $instance['menu'] : 'primary';
+		$menu  = isset( $instance['menu'] ) ? strtolower( $instance['menu'] ) : 'primary';
 		$color = isset( $instance['color'] ) ? $instance['color'] : 'navbar-default';
+		$brand = isset( $instance['brand'] ) ? $instance['brand'] : '';
 		echo $args['before_widget'];
 		?>
 		<nav class="navbar <?php echo $color; ?>">
 			<div class="container-fluid">
-				<?php echo $this->build_menu( $menu ); ?>
+				<?php $this->build_header( $menu, $brand ); ?>
+				<?php $this->build_menu( $menu ); ?>
 			</div>
 		</nav>
 		<?php
 		echo $args['after_widget'];
+	}
+
+	/**
+	 * Build the navbar header with the brand
+	 *
+	 * @param string $menu
+	 * @param string $brand
+	 */
+	public function build_header( $menu, $brand ) {
+		?>
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#<?php echo $menu; ?>" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="#">
+				<?php echo $brand; ?>
+			</a>
+		</div>
+		<?php
 	}
 
 	/**
@@ -123,11 +147,12 @@ class WPBW_Widget_NavigationBar extends WP_Widget {
 	 * @return string
 	 */
 	public function build_menu( $menu ) {
-		return wp_nav_menu( array(
+		wp_nav_menu( array(
 			'menu'            => $menu,
 			'menu_class'      => 'nav navbar-nav menu',
 			'container_class' => 'collapse navbar-collapse',
-			'echo'            => false,
+			'container_id'    => 'navbar-container-' . $menu,
+			'echo'            => true,
 			'depth'           => self::MAX_DEPTH,
 			'walker'          => new WPBW_Widget_NavigationBar_Walker(),
 		) );
@@ -143,6 +168,7 @@ class WPBW_Widget_NavigationBar extends WP_Widget {
 	public function form( $instance ) {
 		$this->form_field_menu( $instance );
 		$this->form_field_color( $instance );
+		$this->form_field_brand( $instance );
 	}
 
 	/**
@@ -176,6 +202,13 @@ class WPBW_Widget_NavigationBar extends WP_Widget {
 		wpbw_field_select( $name, __( 'Color:' ), $options, compact( 'id' ), $value );
 	}
 
+	public function form_field_brand( $instance ) {
+		$id    = $this->get_field_id( 'brand' );
+		$name  = $this->get_field_name( 'brand' );
+		$value = isset( $instance['brand'] ) ? $instance['brand'] : '';
+		wpbw_field_text( $name, __( 'Brand Name/Logo' ), compact( 'id' ), $value );
+	}
+
 	/**
 	 * Get the registered and not registered menus
 	 *
@@ -203,6 +236,7 @@ class WPBW_Widget_NavigationBar extends WP_Widget {
 		$instance          = array();
 		$instance['menu']  = strip_tags( $new_instance['menu'] );
 		$instance['color'] = strip_tags( $new_instance['color'] );
+		$instance['brand'] = strip_tags( $new_instance['brand'] );
 
 		return $instance;
 	}
