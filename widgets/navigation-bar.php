@@ -102,14 +102,15 @@ class WPBW_Widget_NavigationBar extends WP_Widget {
 	 * @param array $instance
 	 */
 	public function widget( $args, $instance ) {
-		$menu  = isset( $instance['menu'] ) ? strtolower( $instance['menu'] ) : 'primary';
-		$color = isset( $instance['color'] ) ? $instance['color'] : 'navbar-default';
-		$brand = isset( $instance['brand'] ) ? $instance['brand'] : '';
+		$menu       = isset( $instance['menu'] ) ? strtolower( $instance['menu'] ) : 'primary';
+		$color      = isset( $instance['color'] ) ? $instance['color'] : 'navbar-default';
+		$brand_name = isset( $instance['brand_name'] ) ? $instance['brand_name'] : '';
+		$brand_logo = isset( $instance['brand_logo'] ) ? $instance['brand_logo'] : '';
 		echo $args['before_widget'];
 		?>
 		<nav class="navbar <?php echo $color; ?>">
 			<div class="container-fluid">
-				<?php $this->build_header( $menu, $brand ); ?>
+				<?php $this->build_header( $menu, $brand_name, $brand_logo ); ?>
 				<?php $this->build_menu( $menu ); ?>
 			</div>
 		</nav>
@@ -121,22 +122,25 @@ class WPBW_Widget_NavigationBar extends WP_Widget {
 	 * Build the navbar header with the brand
 	 *
 	 * @param string $menu
-	 * @param string $brand
+	 * @param string $brand_name
+	 * @param string $brand_logo
 	 */
-	public function build_header( $menu, $brand ) {
-		?>
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#<?php echo $menu; ?>" aria-expanded="false">
-				<span class="sr-only">Toggle navigation</span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			</button>
-			<a class="navbar-brand" href="#">
-				<?php echo $brand; ?>
-			</a>
-		</div>
-		<?php
+	public function build_header( $menu, $brand_name, $brand_logo ) {
+		if ( ! empty( $brand_name ) or ! empty( $brand_logo ) ) {
+			?>
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#<?php echo $menu; ?>" aria-expanded="false">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand <?php echo $this->brand_is_image( $brand_logo ) ? 'navbar-brand-is-img' : ''; ?>" href="#">
+					<?php echo $this->format_brand( $brand_name, $brand_logo ); ?>
+				</a>
+			</div>
+			<?php
+		}
 	}
 
 	/**
@@ -168,7 +172,8 @@ class WPBW_Widget_NavigationBar extends WP_Widget {
 	public function form( $instance ) {
 		$this->form_field_menu( $instance );
 		$this->form_field_color( $instance );
-		$this->form_field_brand( $instance );
+		$this->form_field_brand_name( $instance );
+		$this->form_field_brand_logo( $instance );
 	}
 
 	/**
@@ -202,11 +207,32 @@ class WPBW_Widget_NavigationBar extends WP_Widget {
 		wpbw_field_select( $name, __( 'Color:' ), $options, compact( 'id' ), $value );
 	}
 
-	public function form_field_brand( $instance ) {
-		$id    = $this->get_field_id( 'brand' );
-		$name  = $this->get_field_name( 'brand' );
-		$value = isset( $instance['brand'] ) ? $instance['brand'] : '';
-		wpbw_field_text( $name, __( 'Brand Name/Logo' ), compact( 'id' ), $value );
+	/**
+	 * The brand name
+	 *
+	 * @param $instance
+	 */
+	public function form_field_brand_name( $instance ) {
+		$id    = $this->get_field_id( 'brand_name' );
+		$name  = $this->get_field_name( 'brand_name' );
+		$value = isset( $instance['brand_name'] ) ? $instance['brand_name'] : '';
+		$atts  = array( 'id' => $id, 'placeholder' => 'My Brand' );
+		wpbw_field_text( $name, __( 'Brand Name:' ), $atts, $value );
+	}
+
+	/**
+	 * The brand image from Media Library
+	 *
+	 * @param $instance
+	 */
+	public function form_field_brand_logo( $instance ) {
+		$id    = $this->get_field_id( 'brand_logo' );
+		$name  = $this->get_field_name( 'brand_logo' );
+		$value = isset( $instance['brand_logo'] ) ? $instance['brand_logo'] : '';
+		$atts  = array( 'id' => $id, 'class' => '' );
+		add_action( 'wpbw_field_before', array( $this, 'form_field_before' ) );
+		add_action( 'wpbw_field_after', array( $this, 'form_field_after' ) );
+		wpbw_field_text( $name, __( 'Brand Logo <em>(optional)</em>:' ), $atts, $value );
 	}
 
 	/**
@@ -233,12 +259,24 @@ class WPBW_Widget_NavigationBar extends WP_Widget {
 	 * @return array
 	 */
 	public function update( $new_instance, $old_instance ) {
-		$instance          = array();
-		$instance['menu']  = strip_tags( $new_instance['menu'] );
-		$instance['color'] = strip_tags( $new_instance['color'] );
-		$instance['brand'] = strip_tags( $new_instance['brand'] );
+		$instance               = array();
+		$instance['menu']       = strip_tags( $new_instance['menu'] );
+		$instance['color']      = strip_tags( $new_instance['color'] );
+		$instance['brand_name'] = strip_tags( $new_instance['brand_name'] );
+		$instance['brand_logo'] = strip_tags( $new_instance['brand_logo'] );
 
 		return $instance;
+	}
+
+	/**
+	 * Hook to customize before the field
+	 *
+	 * @param string $name
+	 */
+	public function form_field_before( $name ) {
+		if ( $name == $this->get_field_name( 'brand_logo' ) ) {
+			echo '<br>';
+		}
 	}
 
 	/**
@@ -255,5 +293,39 @@ class WPBW_Widget_NavigationBar extends WP_Widget {
 			</span>
 			<?php
 		}
+		if ( $name == $this->get_field_name( 'brand_logo' ) ) {
+			?>
+			<input id="wpbw-upload-button" type="button" class="button" value="Select Logo">
+			<?php
+		}
+	}
+
+	/**
+	 * Verify if the brand's logo is present or not
+	 *
+	 * @param string $brand_logo
+	 *
+	 * @return bool
+	 */
+	public function brand_is_image( $brand_logo ) {
+		return (bool) filter_var( $brand_logo, FILTER_VALIDATE_URL );
+	}
+
+	/**
+	 * Format the brand according the type: name or logo
+	 *
+	 * @param string $brand_name
+	 * @param string $brand_logo
+	 *
+	 * @return mixed
+	 * @internal param $brand
+	 *
+	 */
+	public function format_brand( $brand_name, $brand_logo ) {
+		if ( $this->brand_is_image( $brand_logo ) ) {
+			return sprintf( '<img src="%s" alt="%s">', $brand_logo, $brand_name );
+		}
+
+		return $brand_name;
 	}
 }
