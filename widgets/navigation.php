@@ -97,10 +97,11 @@ class WPBW_Widget_Navigation extends WP_Widget {
 	 * @param array $instance
 	 */
 	public function widget( $args, $instance ) {
-		$menu = isset( $instance['menu'] ) ? $instance['menu'] : 'primary';
+		$menu  = isset( $instance['menu'] ) ? $instance['menu'] : 'primary';
+		$color = isset( $instance['color'] ) ? $instance['color'] : 'navbar-default';
 		echo $args['before_widget'];
 		?>
-		<nav class="navbar navbar-default">
+		<nav class="navbar <?php echo $color; ?>">
 			<div class="container-fluid">
 				<?php echo $this->build_menu( $menu ); ?>
 			</div>
@@ -136,6 +137,7 @@ class WPBW_Widget_Navigation extends WP_Widget {
 	 */
 	public function form( $instance ) {
 		$this->form_field_menu( $instance );
+		$this->form_field_color( $instance );
 	}
 
 	/**
@@ -151,6 +153,22 @@ class WPBW_Widget_Navigation extends WP_Widget {
 		$options = $this->get_nav_menus();
 		add_action( 'wpbw_field_after', array( $this, 'form_field_after' ) );
 		wpbw_field_select( $name, $label, $options, compact( 'id' ), $value );
+	}
+
+	/**
+	 * The navbar color class (default or inverse)
+	 *
+	 * @param $instance
+	 */
+	public function form_field_color( $instance ) {
+		$id      = $this->get_field_id( 'color' );
+		$name    = $this->get_field_name( 'color' );
+		$value   = isset( $instance['menu'] ) ? $instance['menu'] : '';
+		$options = array(
+			'navbar-default' => 'Default',
+			'navbar-inverse' => 'Inverse',
+		);
+		wpbw_field_select( $name, __( 'Color:' ), $options, compact( 'id' ), $value );
 	}
 
 	/**
@@ -177,8 +195,9 @@ class WPBW_Widget_Navigation extends WP_Widget {
 	 * @return array
 	 */
 	public function update( $new_instance, $old_instance ) {
-		$instance         = array();
-		$instance['menu'] = strip_tags( $new_instance['menu'] );
+		$instance          = array();
+		$instance['menu']  = strip_tags( $new_instance['menu'] );
+		$instance['color'] = strip_tags( $new_instance['color'] );
 
 		return $instance;
 	}
