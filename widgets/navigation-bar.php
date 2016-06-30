@@ -8,14 +8,19 @@
 class WPBW_Widget_NavigationBar extends WP_Widget {
 
 	/**
-	 * The class name when the <li> element has children (is a dropdown)
+	 * The CSS class name when the <li> element has children (is a dropdown)
 	 */
 	const HAS_CHILDREN_CLASS = 'menu-item-has-children';
 
 	/**
-	 * The class name when the <li> element is the current one
+	 * The CSS class name when the <li> element is the current one
 	 */
 	const CURRENT_MENU_ITEM_CLASS = 'current-menu-item';
+
+	/**
+	 * The maximum depth for the navbar menu
+	 */
+	const MAX_DEPTH = 2;
 
 	/**
 	 * The navbar component constructor
@@ -31,7 +36,7 @@ class WPBW_Widget_NavigationBar extends WP_Widget {
 			)
 		);
 		add_filter( 'nav_menu_css_class', array( $this, 'nav_menu_css_class' ), 10, 1 );
-		add_filter( 'nav_menu_item_args', array( $this, 'nav_menu_item_args' ), 10, 2 );
+		add_filter( 'nav_menu_item_args', array( $this, 'nav_menu_item_args' ), 10, 3 );
 		add_filter( 'nav_menu_link_attributes', array( $this, 'nav_menu_link_attributes' ), 10, 2 );
 	}
 
@@ -61,9 +66,9 @@ class WPBW_Widget_NavigationBar extends WP_Widget {
 	 *
 	 * @return mixed
 	 */
-	public function nav_menu_item_args( $args, $item ) {
+	public function nav_menu_item_args( $args, $item, $depth ) {
 		$args->link_after = ''; // remove link_after for others
-		if ( in_array( self::HAS_CHILDREN_CLASS, $item->classes ) ) {
+		if ( in_array( self::HAS_CHILDREN_CLASS, $item->classes ) && $depth == 0 ) {
 			$args->link_after = ' <span class="caret"></span>';
 		}
 
@@ -123,7 +128,7 @@ class WPBW_Widget_NavigationBar extends WP_Widget {
 			'menu_class'      => 'nav navbar-nav menu',
 			'container_class' => 'collapse navbar-collapse',
 			'echo'            => false,
-			'depth'           => 2,
+			'depth'           => self::MAX_DEPTH,
 			'walker'          => new WPBW_Widget_NavigationBar_Walker(),
 		) );
 	}
