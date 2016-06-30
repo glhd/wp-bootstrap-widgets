@@ -1,25 +1,93 @@
 <?php
 
 /**
- * The nav Bootstrap component as WordPress widget
+ * The navbar Bootstrap component as WordPress widget
  *
  * @author Junior Grossi <@jgrossi>
  */
 class WPBW_Widget_Navigation extends WP_Widget {
 
 	/**
-	 * The image component constructor
+	 * The class name when the <li> element has children (is a dropdown)
+	 */
+	const HAS_CHILDREN_CLASS = 'menu-item-has-children';
+
+	/**
+	 * The class name when the <li> element is the current one
+	 */
+	const CURRENT_MENU_ITEM_CLASS = 'current-menu-item';
+
+	/**
+	 * The navbar component constructor
 	 */
 	public function __construct() {
 		parent::__construct(
-			'wpbw-nav',
-			__( 'Navigation' ),
+			'wpbw-navbar',
+			__( 'Navigation Bar' ),
 			array(
-				'description'   => __( 'Display an nav component based on a WordPress menu.' ),
+				'description'   => __( 'Display an navbar component based on a WordPress menu.' ),
 				'panels_groups' => array( 'wp-bootstrap-widgets' ),
 				'panels_icon'   => 'dashicons dashicons-list-view',
 			)
 		);
+		add_filter( 'nav_menu_css_class', array( $this, 'nav_menu_css_class' ), 10, 1 );
+		add_filter( 'nav_menu_item_args', array( $this, 'nav_menu_item_args' ), 10, 2 );
+		add_filter( 'nav_menu_link_attributes', array( $this, 'nav_menu_link_attributes' ), 10, 2 );
+	}
+
+	/**
+	 * Add new classes to t he <li> menu item
+	 *
+	 * @param array $classes
+	 *
+	 * @return array
+	 */
+	public function nav_menu_css_class( $classes ) {
+		if ( in_array( self::HAS_CHILDREN_CLASS, $classes ) ) {
+			$classes[] = 'dropdown';
+		}
+		if ( in_array( self::CURRENT_MENU_ITEM_CLASS, $classes ) ) {
+			$classes[] = 'active';
+		}
+
+		return $classes;
+	}
+
+	/**
+	 * Add the caret to the dropdown <a> element
+	 *
+	 * @param stdClass $args
+	 * @param WP_Post  $item
+	 *
+	 * @return mixed
+	 */
+	public function nav_menu_item_args( $args, $item ) {
+		$args->link_after = ''; // remove link_after for others
+		if ( in_array( self::HAS_CHILDREN_CLASS, $item->classes ) ) {
+			$args->link_after = ' <span class="caret"></span>';
+		}
+
+		return $args;
+	}
+
+	/**
+	 * Set the proper attributes for the dropdown <a> element
+	 *
+	 * @param array   $atts
+	 * @param WP_Post $item
+	 *
+	 * @return mixed
+	 */
+	public function nav_menu_link_attributes( $atts, $item ) {
+		if ( in_array( self::HAS_CHILDREN_CLASS, $item->classes ) ) {
+			$atts['class']         = 'dropdown-toggle';
+			$atts['data-toggle']   = 'dropdown';
+			$atts['role']          = 'button';
+			$atts['aria-haspopup'] = 'true';
+			$atts['aria-expanded'] = 'false';
+		}
+
+		return $atts;
 	}
 
 	/**
@@ -29,15 +97,34 @@ class WPBW_Widget_Navigation extends WP_Widget {
 	 * @param array $instance
 	 */
 	public function widget( $args, $instance ) {
-		$classes = $instance['responsive'];
-		$classes .= ' ' . $instance['shape'];
-		$alt = $instance['alt'];
-		$url = isset( $instance['url'] ) ? $instance['url'] : '';
+		$menu = isset( $instance['menu'] ) ? $instance['menu'] : 'primary';
 		echo $args['before_widget'];
 		?>
-		<img src="<?php echo $url; ?>" class="<?php echo $classes; ?>" alt="<?php echo $alt; ?>" />
+		<nav class="navbar navbar-default">
+			<div class="container-fluid">
+				<?php echo $this->build_menu( $menu ); ?>
+			</div>
+		</nav>
 		<?php
 		echo $args['after_widget'];
+	}
+
+	/**
+	 * Build the menu according Bootstrap conventions
+	 *
+	 * @param string $menu
+	 *
+	 * @return string
+	 */
+	public function build_menu( $menu ) {
+		return wp_nav_menu( array(
+			'menu'            => $menu,
+			'menu_class'      => 'nav navbar-nav menu',
+			'container_class' => 'collapse navbar-collapse',
+			'echo'            => false,
+			'depth'           => 2,
+			'walker'          => new WPBW_Widget_Navigation_Walker(),
+		) );
 	}
 
 	/**
@@ -57,13 +144,28 @@ class WPBW_Widget_Navigation extends WP_Widget {
 	 * @param $instance
 	 */
 	public function form_field_menu( $instance ) {
-		$id         = $this->get_field_id( 'menu' );
-		$name       = $this->get_field_name( 'menu' );
-		$value      = isset( $instance['menu'] ) ? $instance['menu'] : '#';
-		$label      = __( 'Menu:' );
-		$options    = get_registered_nav_menus();
+		$id      = $this->get_field_id( 'menu' );
+		$name    = $this->get_field_name( 'menu' );
+		$value   = isset( $instance['menu'] ) ? $instance['menu'] : '';
+		$label   = __( 'Menu:' );
+		$options = $this->get_nav_menus();
 		add_action( 'wpbw_field_after', array( $this, 'form_field_after' ) );
-		wpbw_field_select( $name, $label, $options, compact('id'), $value );
+		wpbw_field_select( $name, $label, $options, compact( 'id' ), $value );
+	}
+
+	/**
+	 * Get the registered and not registered menus
+	 *
+	 * @return array
+	 */
+	public function get_nav_menus() {
+		$array = get_registered_nav_menus();
+		$menus = wp_get_nav_menus();
+		foreach ( $menus as $menu ) {
+			$array[ $menu->slug ] = $menu->name;
+		}
+
+		return $array;
 	}
 
 	/**
@@ -88,7 +190,7 @@ class WPBW_Widget_Navigation extends WP_Widget {
 	 */
 	public function form_field_after( $name ) {
 		if ( $name == $this->get_field_name( 'menu' ) ) {
-			$url = admin_url('nav-menus.php');
+			$url = admin_url( 'nav-menus.php' );
 			?>
 			<span class="wpbw-highlight highlight">
 				You can add new menus in ​<strong><a href="<?php echo $url; ?>">Appearance > Menus</a></strong>
