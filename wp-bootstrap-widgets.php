@@ -13,6 +13,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 define( 'WPBW_NAME', 'WP Bootstrap Widgets' );
+define( 'WPBW_SLUG', 'wp-bootstrap-widgets' );
+define( 'WPBW_URL', plugin_dir_url( __FILE__ ) );
 define( 'WPBW_REQUIRED_PHP_VERSION', '5.2' );
 define( 'WPBW_REQUIRED_WP_VERSION', '3.0' );
 
@@ -74,6 +76,15 @@ function wpbw_add_widget_tabs( $tabs ) {
 	return $tabs;
 }
 
+/**
+ * Register the plugin CSS and JS files
+ */
+function wpbw_assets() {
+	wp_enqueue_media(); // Media Library
+	wp_enqueue_script( WPBW_SLUG, WPBW_URL . 'assets/scripts.js', array( 'jquery' ) );
+	wp_enqueue_style( WPBW_SLUG, WPBW_URL . 'assets/styles.css' );
+}
+
 /*
  * Check requirements and load main class
  * The main program needs to be in a separate file that only gets loaded if the plugin requirements are met. Otherwise older PHP installations could crash when trying to parse it.
@@ -89,6 +100,7 @@ if ( wpbw_requirements_met() ) {
 	require_once( dirname( __FILE__ ) . '/widgets/well.php' );
 
 	add_action( 'widgets_init', 'wpbw_widgets_init' );
+	add_action( 'admin_enqueue_scripts', 'wpbw_assets' );
 	// Site Origin Page Builder Plugin
 	if ( has_filter( 'siteorigin_panels_widget_dialog_tabs' ) ) {
 		add_filter( 'siteorigin_panels_widget_dialog_tabs', 'wpbw_add_widget_tabs', 20 );

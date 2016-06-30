@@ -90,7 +90,7 @@ class WPBW_Widget_Navigation extends WP_Widget {
 		if ( $name == $this->get_field_name( 'menu' ) ) {
 			$url = admin_url('nav-menus.php');
 			?>
-			<span class="highlight" style="padding: 5px 10px; font-style: italic; display: block; margin-top: 1em;">
+			<span class="wpbw-highlight highlight">
 				You can add new menus in ​<strong><a href="<?php echo $url; ?>">Appearance > Menus</a></strong>
 			</span>
 			<?php
