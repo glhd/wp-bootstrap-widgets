@@ -30,7 +30,7 @@ class WPBW_Widget_NavigationBar extends WP_Widget {
 			'wpbw-navbar',
 			__( 'Navigation Bar' ),
 			array(
-				'description'   => __( 'Display an navbar component based on a WordPress menu.' ),
+				'description'   => __( 'Display a navbar component based on a WordPress menu.' ),
 				'panels_groups' => array( 'wp-bootstrap-widgets' ),
 				'panels_icon'   => 'dashicons dashicons-list-view',
 			)
@@ -168,7 +168,7 @@ class WPBW_Widget_NavigationBar extends WP_Widget {
 	public function form_field_color( $instance ) {
 		$id      = $this->get_field_id( 'color' );
 		$name    = $this->get_field_name( 'color' );
-		$value   = isset( $instance['menu'] ) ? $instance['menu'] : '';
+		$value   = isset( $instance['color'] ) ? $instance['color'] : '';
 		$options = array(
 			'navbar-default' => 'Default',
 			'navbar-inverse' => 'Inverse',
