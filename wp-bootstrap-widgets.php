@@ -81,14 +81,15 @@ function wpbw_add_widget_tabs( $tabs ) {
  */
 function wpbw_assets_admin() {
 	wp_enqueue_media(); // Media Library
-	wp_enqueue_script( WPBW_SLUG, WPBW_URL . 'assets/scripts.js', array( 'jquery' ) );
-	wp_enqueue_style( WPBW_SLUG, WPBW_URL . 'assets/styles.css' );
+	wp_enqueue_script( WPBW_SLUG, WPBW_URL . 'assets/scripts-admin.js', array( 'jquery' ) );
+	wp_enqueue_style( WPBW_SLUG, WPBW_URL . 'assets/styles-admin.css' );
 }
 
 /**
  * Register the CSS and JS files for frontend layer
  */
 function wpbw_assets_front() {
+	wp_enqueue_style( WPBW_SLUG, WPBW_URL . 'assets/styles-front.css' );
 	wp_enqueue_script(
 		'bootstrap',
 		'https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js',
