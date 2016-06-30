@@ -102,7 +102,7 @@ function wpbw_assets_front() {
  */
 if ( wpbw_requirements_met() ) {
 	require_once( dirname( __FILE__ ) . '/form-fields.php' );
-	require_once( dirname( __FILE__ ) . '/include/navigation_walker.php' );
+	require_once( dirname( __FILE__ ) . '/include/navigation-bar-walker.php' );
 	require_once( dirname( __FILE__ ) . '/widgets/alert.php' );
 	require_once( dirname( __FILE__ ) . '/widgets/button.php' );
 	require_once( dirname( __FILE__ ) . '/widgets/embed.php' );

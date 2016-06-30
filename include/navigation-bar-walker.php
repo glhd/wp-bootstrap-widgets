@@ -1,6 +1,6 @@
 <?php
 
-class WPBW_Widget_Navigation_Walker extends Walker_Nav_Menu {
+class WPBW_Widget_NavigationBar_Walker extends Walker_Nav_Menu {
 
 	/**
 	 * Override the default start_lvl() setting the correct class according Bootstrap conventions

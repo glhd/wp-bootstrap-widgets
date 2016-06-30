@@ -124,7 +124,7 @@ class WPBW_Widget_NavigationBar extends WP_Widget {
 			'container_class' => 'collapse navbar-collapse',
 			'echo'            => false,
 			'depth'           => 2,
-			'walker'          => new WPBW_Widget_Navigation_Walker(),
+			'walker'          => new WPBW_Widget_NavigationBar_Walker(),
 		) );
 	}
 
