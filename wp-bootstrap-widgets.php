@@ -77,12 +77,23 @@ function wpbw_add_widget_tabs( $tabs ) {
 }
 
 /**
- * Register the plugin CSS and JS files
+ * Register the plugin CSS and JS files for admin panel
  */
-function wpbw_assets() {
+function wpbw_assets_admin() {
 	wp_enqueue_media(); // Media Library
 	wp_enqueue_script( WPBW_SLUG, WPBW_URL . 'assets/scripts.js', array( 'jquery' ) );
 	wp_enqueue_style( WPBW_SLUG, WPBW_URL . 'assets/styles.css' );
+}
+
+/**
+ * Register the CSS and JS files for frontend layer
+ */
+function wpbw_assets_front() {
+	wp_enqueue_script(
+		'bootstrap',
+		'https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js',
+		array( 'jquery' )
+	);
 }
 
 /*
@@ -100,7 +111,8 @@ if ( wpbw_requirements_met() ) {
 	require_once( dirname( __FILE__ ) . '/widgets/well.php' );
 
 	add_action( 'widgets_init', 'wpbw_widgets_init' );
-	add_action( 'admin_enqueue_scripts', 'wpbw_assets' );
+	add_action( 'admin_enqueue_scripts', 'wpbw_assets_admin' );
+	add_action( 'wp_enqueue_scripts', 'wpbw_assets_front' );
 	// Site Origin Page Builder Plugin
 	if ( has_filter( 'siteorigin_panels_widget_dialog_tabs' ) ) {
 		add_filter( 'siteorigin_panels_widget_dialog_tabs', 'wpbw_add_widget_tabs', 20 );
