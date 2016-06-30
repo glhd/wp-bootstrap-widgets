@@ -23,6 +23,11 @@ class WPBW_Widget_NavigationBar extends WP_Widget {
 	const MAX_DEPTH = 2;
 
 	/**
+	 * The <ul> container id prefix
+	 */
+	const CONTAINER_ID_PREFIX = 'navbar-container-';
+
+	/**
 	 * The navbar component constructor
 	 */
 	public function __construct() {
@@ -129,7 +134,7 @@ class WPBW_Widget_NavigationBar extends WP_Widget {
 		if ( ! empty( $brand_name ) or ! empty( $brand_logo ) ) {
 			?>
 			<div class="navbar-header">
-				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#<?php echo $menu; ?>" aria-expanded="false">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#<?php echo self::CONTAINER_ID_PREFIX . $menu; ?>" aria-expanded="false">
 					<span class="sr-only">Toggle navigation</span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
@@ -155,7 +160,7 @@ class WPBW_Widget_NavigationBar extends WP_Widget {
 			'menu'            => $menu,
 			'menu_class'      => 'nav navbar-nav menu',
 			'container_class' => 'collapse navbar-collapse',
-			'container_id'    => 'navbar-container-' . $menu,
+			'container_id'    => self::CONTAINER_ID_PREFIX . $menu,
 			'echo'            => true,
 			'depth'           => self::MAX_DEPTH,
 			'walker'          => new WPBW_Widget_NavigationBar_Walker(),
