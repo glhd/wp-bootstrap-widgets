@@ -131,21 +131,21 @@ class WPBW_Widget_NavigationBar extends WP_Widget {
 	 * @param string $brand_logo
 	 */
 	public function build_header( $menu, $brand_name, $brand_logo ) {
-		if ( ! empty( $brand_name ) or ! empty( $brand_logo ) ) {
-			?>
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#<?php echo self::CONTAINER_ID_PREFIX . $menu; ?>" aria-expanded="false">
-					<span class="sr-only">Toggle navigation</span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
+		?>
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#<?php echo self::CONTAINER_ID_PREFIX . $menu; ?>" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<?php if ( ! empty( $brand_name ) or ! empty( $brand_logo ) ): ?>
 				<a class="navbar-brand <?php echo $this->brand_is_image( $brand_logo ) ? 'navbar-brand-is-img' : ''; ?>" href="#">
 					<?php echo $this->format_brand( $brand_name, $brand_logo ); ?>
 				</a>
-			</div>
-			<?php
-		}
+			<?php endif; ?>
+		</div>
+		<?php
 	}
 
 	/**
