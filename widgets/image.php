@@ -20,12 +20,6 @@ class WPBW_Widget_Image extends WP_Widget {
 				'panels_icon'   => 'dashicons dashicons-format-image',
 			)
 		);
-		add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
-	}
-
-	public function admin_scripts() {
-		wp_enqueue_media();
-		wp_enqueue_script( $this->name, plugin_dir_url( __FILE__ ) . '../js/image.js', array( 'jquery' ) );
 	}
 
 	/**

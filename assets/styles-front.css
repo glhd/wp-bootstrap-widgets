@@ -1,0 +1,7 @@
+.navbar-brand-is-img {
+	padding-top: 7px;
+	padding-bottom: 7px;
+}
+.navbar-brand > img {
+	max-height: 36px;
+}
