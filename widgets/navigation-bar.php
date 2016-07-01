@@ -111,11 +111,12 @@ class WPBW_Widget_NavigationBar extends WP_Widget {
 		$color      = isset( $instance['color'] ) ? $instance['color'] : 'navbar-default';
 		$brand_name = isset( $instance['brand_name'] ) ? $instance['brand_name'] : '';
 		$brand_logo = isset( $instance['brand_logo'] ) ? $instance['brand_logo'] : '';
+		$brand_link = isset( $instance['brand_link'] ) ? $instance['brand_link'] : '';
 		echo $args['before_widget'];
 		?>
 		<nav class="navbar <?php echo $color; ?>">
 			<div class="container-fluid">
-				<?php $this->build_header( $menu, $brand_name, $brand_logo ); ?>
+				<?php $this->build_header( $menu, $brand_name, $brand_logo, $brand_link ); ?>
 				<?php $this->build_menu( $menu ); ?>
 			</div>
 		</nav>
@@ -130,7 +131,7 @@ class WPBW_Widget_NavigationBar extends WP_Widget {
 	 * @param string $brand_name
 	 * @param string $brand_logo
 	 */
-	public function build_header( $menu, $brand_name, $brand_logo ) {
+	public function build_header( $menu, $brand_name, $brand_logo, $brand_link ) {
 		?>
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#<?php echo self::CONTAINER_ID_PREFIX . $menu; ?>" aria-expanded="false">
@@ -140,7 +141,7 @@ class WPBW_Widget_NavigationBar extends WP_Widget {
 				<span class="icon-bar"></span>
 			</button>
 			<?php if ( ! empty( $brand_name ) or ! empty( $brand_logo ) ): ?>
-				<a class="navbar-brand <?php echo $this->brand_is_image( $brand_logo ) ? 'navbar-brand-is-img' : ''; ?>" href="#">
+				<a class="navbar-brand <?php echo $this->brand_is_image( $brand_logo ) ? 'navbar-brand-is-img' : ''; ?>" href="<?php echo $brand_link; ?>">
 					<?php echo $this->format_brand( $brand_name, $brand_logo ); ?>
 				</a>
 			<?php endif; ?>
@@ -179,6 +180,7 @@ class WPBW_Widget_NavigationBar extends WP_Widget {
 		$this->form_field_color( $instance );
 		$this->form_field_brand_name( $instance );
 		$this->form_field_brand_logo( $instance );
+		$this->form_field_brand_link( $instance );
 	}
 
 	/**
@@ -241,6 +243,19 @@ class WPBW_Widget_NavigationBar extends WP_Widget {
 	}
 
 	/**
+	 * The brand link
+	 *
+	 * @param $instance
+	 */
+	public function form_field_brand_link( $instance ) {
+		$id          = $this->get_field_id( 'brand_link' );
+		$name        = $this->get_field_name( 'brand_link' );
+		$value       = isset( $instance['brand_link'] ) ? $instance['brand_link'] : '';
+		$placeholder = 'http://yourcompany.com';
+		wpbw_field_text( $name, __( 'Brand Link:' ), compact( 'id', 'placeholder' ), $value );
+	}
+
+	/**
 	 * Get the registered and not registered menus
 	 *
 	 * @return array
@@ -269,6 +284,7 @@ class WPBW_Widget_NavigationBar extends WP_Widget {
 		$instance['color']      = strip_tags( $new_instance['color'] );
 		$instance['brand_name'] = strip_tags( $new_instance['brand_name'] );
 		$instance['brand_logo'] = strip_tags( $new_instance['brand_logo'] );
+		$instance['brand_link'] = strip_tags( $new_instance['brand_link'] );
 
 		return $instance;
 	}
