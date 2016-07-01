@@ -23,7 +23,7 @@ Included widgets:
   - [Panels](https://getbootstrap.com/components/#panels)
   - [Wells](https://getbootstrap.com/components/#wells)
 
-All widgets are configurable (choose from `primary`, `succcess`, `info`, etc).
+All widgets are configurable (choose from `primary`, `success`, `info`, etc).
 
 == Installation ==
 
