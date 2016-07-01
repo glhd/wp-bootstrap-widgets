@@ -222,8 +222,8 @@ class WPBW_Widget_NavigationBar extends WP_Widget {
 	public function form_field_brand_name( $instance ) {
 		$id    = $this->get_field_id( 'brand_name' );
 		$name  = $this->get_field_name( 'brand_name' );
-		$value = isset( $instance['brand_name'] ) ? $instance['brand_name'] : '';
-		$atts  = array( 'id' => $id, 'placeholder' => 'My Brand' );
+		$value = isset( $instance['brand_name'] ) ? $instance['brand_name'] : get_option( 'blogname' );
+		$atts  = array( 'id' => $id, 'placeholder' => get_option( 'blogname' ) );
 		wpbw_field_text( $name, __( 'Brand Name:' ), $atts, $value );
 	}
 
@@ -250,8 +250,8 @@ class WPBW_Widget_NavigationBar extends WP_Widget {
 	public function form_field_brand_link( $instance ) {
 		$id          = $this->get_field_id( 'brand_link' );
 		$name        = $this->get_field_name( 'brand_link' );
-		$value       = isset( $instance['brand_link'] ) ? $instance['brand_link'] : '';
-		$placeholder = 'http://yourcompany.com';
+		$value       = isset( $instance['brand_link'] ) ? $instance['brand_link'] : home_url();
+		$placeholder = 'eg. ' . home_url();
 		wpbw_field_text( $name, __( 'Brand Link:' ), compact( 'id', 'placeholder' ), $value );
 	}
 
