@@ -4,7 +4,6 @@
  * The image Bootstrap component as WordPress widget
  *
  * @author Junior Grossi <@jgrossi>
- * @todo Add set dimensions
  */
 class WPBW_Widget_Image extends WP_Widget {
 
@@ -21,12 +20,6 @@ class WPBW_Widget_Image extends WP_Widget {
 				'panels_icon'   => 'dashicons dashicons-format-image',
 			)
 		);
-		add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
-	}
-
-	public function admin_scripts() {
-		wp_enqueue_media();
-		wp_enqueue_script( $this->name, plugin_dir_url( __FILE__ ) . '../js/image.js', array( 'jquery' ) );
 	}
 
 	/**
@@ -57,6 +50,7 @@ class WPBW_Widget_Image extends WP_Widget {
 	public function form( $instance ) {
 		$this->form_field_url( $instance );
 		$this->form_field_alt( $instance );
+		$this->form_field_dimensions( $instance );
 		$this->form_field_responsive( $instance );
 		$this->form_field_shape( $instance );
 	}
@@ -83,11 +77,29 @@ class WPBW_Widget_Image extends WP_Widget {
 	 * @param $instance
 	 */
 	public function form_field_alt( $instance ) {
-		$id    = $this->get_field_id( 'alt' );
-		$name  = $this->get_field_name( 'alt' );
-		$value = isset( $instance['alt'] ) ? $instance['alt'] : '';
+		$id          = $this->get_field_id( 'alt' );
+		$name        = $this->get_field_name( 'alt' );
+		$value       = isset( $instance['alt'] ) ? $instance['alt'] : '';
 		$placeholder = 'eg. Photo of cat pouncing';
 		wpbw_field_text( $name, __( 'Descriptive Text (alt):' ), compact( 'id', 'placeholder' ), $value );
+	}
+
+	/**
+	 * The image width and height attributes
+	 *
+	 * @param $instance
+	 */
+	public function form_field_dimensions( $instance ) {
+		$id          = $this->get_field_id( 'width' );
+		$name        = $this->get_field_name( 'width' );
+		$value       = isset( $instance['width'] ) ? $instance['width'] : '';
+		$placeholder = 'eg. 640 or 50%';
+		wpbw_field_text( $name, __( 'Width (pixels or %):' ), compact( 'id', 'placeholder' ), $value );
+		$id          = $this->get_field_id( 'height' );
+		$name        = $this->get_field_name( 'height' );
+		$value       = isset( $instance['height'] ) ? $instance['height'] : '';
+		$placeholder = 'eg. 480 or 30%';
+		wpbw_field_text( $name, __( 'Height (pixels or %):' ), compact( 'id', 'placeholder' ), $value );
 	}
 
 	/**
