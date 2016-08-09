@@ -3,7 +3,7 @@ Contributors: inxilpro, jgrossi
 Tags: bootstrap, widget, widgets, page builder, responsive, cms, layout, alert, button, embed, image, panel, well, navbar
 Requires at least: 4.0
 Tested up to: 4.5.2
-Stable tag: 0.2.1
+Stable tag: 0.2.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -32,6 +32,9 @@ All widgets are configurable (choose from `primary`, `success`, `info`, etc).
   3. Go to **Appearance > Widgets** to add to your site's sidebar, or if you're using the SiteOrigin Page Builder, choose the Page Builder on any page and choose from the "Bootstrap Widgets" section.
 
 == Changelog ==
+
+= 0.2.2 =
+* Add optional title to Responsive Embed component.
 
 = 0.2 =
 * Add navbar widget support, with brand name, logo and color.
