@@ -37,7 +37,11 @@ class WPBW_Widget_Embed extends WP_Widget {
 	public function widget( $args, $instance ) {
 		$aspect_ratio = isset( $instance['aspect_ratio'] ) ? $instance['aspect_ratio'] : 'embed-responsive-16by9';
 		$code         = isset( $instance['code'] ) ? $instance['code'] : '';
+		$title        = isset( $instance['title'] ) ? $instance['title'] : '';
 		echo $args['before_widget'];
+		if ( ! empty( $title ) ) {
+			echo $args['before_title'] . $title . $args['after_title'];
+		}
 		?>
 		<div class="embed-responsive <?php echo $aspect_ratio; ?>">
 			<?php echo $code; ?>
@@ -54,8 +58,19 @@ class WPBW_Widget_Embed extends WP_Widget {
 	 * @return void
 	 */
 	public function form( $instance ) {
+		$this->form_field_title( $instance );
 		$this->form_field_code( $instance );
 		$this->form_field_aspect_ratio( $instance );
+	}
+
+	/**
+	 * @param $instance
+	 */
+	public function form_field_title( $instance ) {
+		$id    = $this->get_field_id( 'title' );
+		$name  = $this->get_field_name( 'title' );
+		$value = isset( $instance['title'] ) ? $instance['title'] : '';
+		wpbw_field_text( $name, __( 'Title <em>(optional)</em>:' ), compact( 'id' ), $value );
 	}
 
 	/**
@@ -103,6 +118,7 @@ class WPBW_Widget_Embed extends WP_Widget {
 		$instance                 = array();
 		$instance['code']         = $this->filter_code_field( $new_instance['code'] );
 		$instance['aspect_ratio'] = strip_tags( $new_instance['aspect_ratio'] );
+		$instance['title']        = strip_tags( $new_instance['title'] );
 
 		return $instance;
 	}
