@@ -38,7 +38,7 @@ class WPBW_Widget_Image extends WP_Widget {
 		?>
 		<img src="<?php echo $url; ?>" class="<?php echo $classes; ?>" alt="<?php echo $alt; ?>" />
 		<?php if ( $caption ): ?>
-			<p class="help-block"><?php echo $caption; ?></p>
+			<p class="help-block"><small><?php echo $caption; ?></small></p>
 		<?php endif;
 		echo $args['after_widget'];
 	}
