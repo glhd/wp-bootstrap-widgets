@@ -31,12 +31,15 @@ class WPBW_Widget_Image extends WP_Widget {
 	public function widget( $args, $instance ) {
 		$classes = $instance['responsive'];
 		$classes .= ' ' . $instance['shape'];
-		$alt = $instance['alt'];
-		$url = isset( $instance['url'] ) ? $instance['url'] : '';
+		$alt     = $instance['alt'];
+		$caption = isset( $instance['caption'] ) ? trim($instance['caption']) : '';
+		$url     = isset( $instance['url'] ) ? $instance['url'] : '';
 		echo $args['before_widget'];
 		?>
 		<img src="<?php echo $url; ?>" class="<?php echo $classes; ?>" alt="<?php echo $alt; ?>" />
-		<?php
+		<?php if ( $caption ): ?>
+			<p class="help-block"><?php echo $caption; ?></p>
+		<?php endif;
 		echo $args['after_widget'];
 	}
 
@@ -50,6 +53,7 @@ class WPBW_Widget_Image extends WP_Widget {
 	public function form( $instance ) {
 		$this->form_field_url( $instance );
 		$this->form_field_alt( $instance );
+		$this->form_field_caption( $instance );
 		$this->form_field_dimensions( $instance );
 		$this->form_field_responsive( $instance );
 		$this->form_field_shape( $instance );
@@ -82,6 +86,19 @@ class WPBW_Widget_Image extends WP_Widget {
 		$value       = isset( $instance['alt'] ) ? $instance['alt'] : '';
 		$placeholder = 'eg. Photo of cat pouncing';
 		wpbw_field_text( $name, __( 'Descriptive Text (alt):' ), compact( 'id', 'placeholder' ), $value );
+	}
+
+	/**
+	 * The image caption text
+	 *
+	 * @param $instance
+	 */
+	public function form_field_caption( $instance ) {
+		$id          = $this->get_field_id( 'caption' );
+		$name        = $this->get_field_name( 'caption' );
+		$value       = isset( $instance['caption'] ) ? $instance['caption'] : '';
+		$placeholder = 'eg. Photo of cat pouncing';
+		wpbw_field_text( $name, __( 'Caption <em>(optional)</em>:' ), compact( 'id', 'placeholder' ), $value );
 	}
 
 	/**
@@ -148,6 +165,7 @@ class WPBW_Widget_Image extends WP_Widget {
 		$instance               = array();
 		$instance['url']        = filter_var( $new_instance['url'], FILTER_VALIDATE_URL );
 		$instance['alt']        = strip_tags( $new_instance['alt'] );
+		$instance['caption']    = strip_tags( $new_instance['caption'] );
 		$instance['responsive'] = strip_tags( $new_instance['responsive'] );
 		$instance['shape']      = strip_tags( $new_instance['shape'] );
 
