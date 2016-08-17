@@ -3,7 +3,7 @@
 Plugin Name: WP Bootstrap Widgets
 Plugin URI:  https://github.com/glhd/wp-bootstrap-widgets
 Description: Bootstrap Components as WordPress Widgets
-Version:     0.2.2
+Version:     0.3.0
 Author:      Galahad, Inc.
 Author URI:  http://glhd.org/
 */
