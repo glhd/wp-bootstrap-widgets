@@ -35,10 +35,13 @@ class WPBW_Widget_Image extends WP_Widget {
 		$caption = isset( $instance['caption'] ) ? trim($instance['caption']) : '';
 		$url     = isset( $instance['url'] ) ? $instance['url'] : '';
 		echo $args['before_widget'];
-		?>
-		<img src="<?php echo $url; ?>" class="<?php echo $classes; ?>" alt="<?php echo $alt; ?>" />
-		<?php if ( $caption ): ?>
-			<p class="help-block"><small><?php echo $caption; ?></small></p>
+		if ($caption): ?>
+			<div class="thumbnail">
+				<img src="<?php echo $url; ?>" alt="<?php echo $alt; ?>" class="<?php echo $classes; ?>">
+				<div class="caption"><?php echo $caption; ?></div>
+			</div>
+		<?php else: ?>
+			<img src="<?php echo $url; ?>" class="<?php echo $classes; ?>" alt="<?php echo $alt; ?>" />
 		<?php endif;
 		echo $args['after_widget'];
 	}
