@@ -90,11 +90,8 @@ function wpbw_assets_admin() {
  */
 function wpbw_assets_front() {
 	wp_enqueue_style( WPBW_SLUG, WPBW_URL . 'assets/styles-front.css' );
-	wp_enqueue_script(
-		'bootstrap',
-		'https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js',
-		array( 'jquery' )
-	);
+	wp_enqueue_script( 'bootstrap-alert', WPBW_URL . 'assets/bootstrap/alert.js', array( 'jquery' ), '3.3.7', true );
+	wp_enqueue_script( 'bootstrap-dropdown', WPBW_URL . 'assets/bootstrap/dropdown.js', array( 'jquery' ), '3.3.7', true );
 }
 
 /*
